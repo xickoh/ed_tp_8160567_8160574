@@ -13,12 +13,12 @@ public class Map<T> {
     /**
      * Class constructor of Map
      *
-     * @param graph
-     * @param entryExit
-     * @param target
-     * @param enemies
-     * @param missionCode
-     * @param version
+     * @param graph represents the structure of the building
+     * @param entryExit represents the entry and exit points in the building
+     * @param target represents the objective of the mission
+     * @param enemies represents a list of the enemies in the building
+     * @param missionCode represents the code of the mission
+     * @param version represents the version
      */
     public Map(NetworkGraph<T> graph,
                ArrayUnorderedList<T> entryExit,
@@ -34,7 +34,7 @@ public class Map<T> {
         this.missionCode = missionCode;
         this.version = version;
 
-        this.
+        this.version
     }
 
     /**
@@ -47,7 +47,8 @@ public class Map<T> {
     }
 
     /**
-     * Returns a ArrayUnor
+     * Returns an ArrayUnorderedList containing the entry and exit
+     * point from the building
      *
      * @return entryExit
      */
@@ -55,10 +56,20 @@ public class Map<T> {
         return this.entryExit;
     }
 
+    /**
+     * Return an object Target
+     *
+     * @return target
+     */
     public Target getTarget() {
         return this.target;
     }
 
+    /**
+     * Returns an ArrayUnorderedList containing the enemies
+     *
+     * @return enemies
+     */
     public ArrayUnorderedList<Enemy> getEnemies() {
         return this.enemies;
     }
