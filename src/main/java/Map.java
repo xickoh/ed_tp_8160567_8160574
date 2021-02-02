@@ -6,7 +6,7 @@ public class Map<T> {
     NetworkGraph<T> graph;
     ArrayUnorderedList<T> entryExit;
     Objective objective;
-    ArrayUnorderedList<Enemys> Enemys;
+    ArrayUnorderedList<Enemy> Enemys;
 
 
 }

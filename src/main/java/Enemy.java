@@ -1,5 +1,3 @@
-package Structs;
-
 public class Enemy {
 
     private String name;
