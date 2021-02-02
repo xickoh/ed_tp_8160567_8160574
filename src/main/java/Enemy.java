@@ -2,9 +2,9 @@ public class Enemy {
 
     private String name;
     private Double power;
-    private int zone;
+    private String zone;
 
-    public Enemy(String name, Double power, int zone) {
+    public Enemy(String name, Double power, String zone) {
         this.name = name;
         this.power = power;
         this.zone = zone;
@@ -18,7 +18,7 @@ public class Enemy {
         return power;
     }
 
-    public int getZone() {
+    public String getZone() {
         return zone;
     }
 }
