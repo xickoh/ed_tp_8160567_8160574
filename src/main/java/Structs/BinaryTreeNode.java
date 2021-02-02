@@ -1,4 +1,4 @@
-package Ficha9;
+package Structs;
 
 public class BinaryTreeNode<T> {
 

@@ -1,4 +1,4 @@
-package Ficha4;
+package Structs;
 
 import Exceptions.EmptyCollectionException;
 

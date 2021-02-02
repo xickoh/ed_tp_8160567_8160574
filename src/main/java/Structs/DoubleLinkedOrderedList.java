@@ -1,7 +1,6 @@
-package Ficha5;
+package Structs;
 
 import Exceptions.NotComparableException;
-import Ficha2.DoubleNode;
 
 public class DoubleLinkedOrderedList<T> extends DoubleLinkedList<T> implements OrderedListADT<T> {
 

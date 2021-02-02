@@ -1,4 +1,4 @@
-package Ficha8;
+package Structs;
 
 public class Search {
 

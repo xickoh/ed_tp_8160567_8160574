@@ -1,7 +1,7 @@
-package Ficha11;
+package Structs;
 
 import Exceptions.EmptyCollectionException;
-import Ficha9.BinaryTreeADT;
+
 
 public interface HeapADT<T> extends BinaryTreeADT<T> {
 

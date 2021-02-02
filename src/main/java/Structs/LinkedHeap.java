@@ -1,7 +1,7 @@
-package Ficha11;
+package Structs;
 
 import Exceptions.EmptyCollectionException;
-import Ficha9.LinkedBinaryTree;
+
 
 public class LinkedHeap<T> extends LinkedBinaryTree<T> implements HeapADT<T> {
 

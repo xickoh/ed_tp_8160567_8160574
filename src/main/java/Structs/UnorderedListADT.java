@@ -1,4 +1,4 @@
-package Ficha5;
+package Structs;
 
 import Exceptions.ElementNotFoundException;
 

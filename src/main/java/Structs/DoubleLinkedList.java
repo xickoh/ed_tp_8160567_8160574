@@ -1,8 +1,8 @@
-package Ficha5;
+package Structs;
 
 import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;
-import Ficha2.DoubleNode;
+
 
 import java.util.Iterator;
 

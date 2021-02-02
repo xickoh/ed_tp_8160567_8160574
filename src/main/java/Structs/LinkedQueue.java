@@ -1,7 +1,7 @@
-package Ficha4;
+package Structs;
 
 import Exceptions.EmptyCollectionException;
-import Ficha2.Node;
+
 
 public class LinkedQueue<T> implements QueueADT<T> {
 

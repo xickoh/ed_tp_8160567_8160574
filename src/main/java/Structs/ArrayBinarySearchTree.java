@@ -1,7 +1,7 @@
-package Ficha10;
+package Structs;
 
 import Exceptions.ElementNotFoundException;
-import Ficha9.ArrayBinaryTree;
+
 
 public class ArrayBinarySearchTree<T> extends ArrayBinaryTree<T> implements BinarySearchTreeADT<T> {
 

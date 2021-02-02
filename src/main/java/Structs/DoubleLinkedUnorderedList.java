@@ -1,7 +1,7 @@
-package Ficha5;
+package Structs;
 
 import Exceptions.ElementNotFoundException;
-import Ficha2.DoubleNode;
+
 
 public class DoubleLinkedUnorderedList<T> extends DoubleLinkedList<T> implements UnorderedListADT<T>{
 

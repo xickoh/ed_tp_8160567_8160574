@@ -1,4 +1,4 @@
-package Ficha12;
+package Structs;
 
 import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;

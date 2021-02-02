@@ -1,6 +1,6 @@
-package Ficha11;
+package Structs;
 
-import Ficha9.BinaryTreeNode;
+
 
 public class HeapNode<T> extends BinaryTreeNode<T> {
 

@@ -1,4 +1,4 @@
-package Ficha10;
+package Structs;;
 
 import Exceptions.ElementNotFoundException;
 import Ficha9.BinaryTreeADT;

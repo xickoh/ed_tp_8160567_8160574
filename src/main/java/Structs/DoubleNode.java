@@ -1,4 +1,4 @@
-package Ficha2;
+package Structs;
 
 public class DoubleNode<T> {
 

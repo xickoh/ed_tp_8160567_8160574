@@ -1,4 +1,4 @@
-package Ficha11;
+package Structs;
 
 public class PriorityQueueNode<T> implements Comparable<PriorityQueueNode> {
 

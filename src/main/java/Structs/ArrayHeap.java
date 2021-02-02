@@ -1,7 +1,7 @@
-package Ficha11;
+package Structs;
 
 import Exceptions.EmptyCollectionException;
-import Ficha9.ArrayBinaryTree;
+
 
 public class ArrayHeap<T> extends ArrayBinaryTree<T> implements HeapADT<T> {
 

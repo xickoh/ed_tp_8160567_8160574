@@ -1,4 +1,4 @@
-package Ficha11;
+package Structs;
 
 public class PriorityQueue<T> extends ArrayHeap<PriorityQueueNode<T>> {
 

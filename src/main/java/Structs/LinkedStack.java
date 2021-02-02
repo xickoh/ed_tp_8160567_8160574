@@ -1,8 +1,7 @@
-package Ficha3;
+package Structs;
 
 import Exceptions.EmptyCollectionException;
-import Ficha2.LinkedList;
-import Ficha2.Node;
+
 
 public class LinkedStack<T> implements StackADT<T>{
 

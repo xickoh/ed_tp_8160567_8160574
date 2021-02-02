@@ -1,9 +1,8 @@
-package Ficha9;
+package Structs;
 
 import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;
-import Ficha4.LinkedQueue;
-import Ficha5.ArrayUnorderedList;
+
 import java.util.Iterator;
 
 public class ArrayBinaryTree<T> implements BinaryTreeADT<T> {

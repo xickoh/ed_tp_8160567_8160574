@@ -1,4 +1,4 @@
-package Ficha12;
+package Structs;
 
 public interface NetworkADT<T> extends GraphADT<T>{
 
