@@ -1,11 +1,15 @@
+
 import Exceptions.NotComparableException;
 import Structs.ArrayOrderedList;
+
+import Exceptions.EmptyCollectionException;
 import Structs.ArrayUnorderedList;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+
 
 public class Simulation<T> {
 
@@ -23,50 +27,110 @@ public class Simulation<T> {
 
         Scanner sc = new Scanner(System.in);
         ArrayOrderedList<String> path = new ArrayOrderedList<>();
-        Iterator<Enemy> enemies = mission.getEnemies().iterator();
         Iterator<String> neighbors;
+        Iterator<String> entry = mission.getEntryExit().iterator();
         Enemy currentEnemy;
         String currentNeighbor;
         boolean hasTarget = false;
 
-        System.out.println("New simulation manual");
-        System.out.println("Insert the inicial position: ");
+        System.out.println("New simulation manual\n");
+        System.out.println("Entries:");
+
+        while (entry.hasNext()){
+
+            System.out.println(entry.next());
+        }
+
+        System.out.println("\nInsert the inicial position: ");
         String position = sc.nextLine();
 
+        search:
         do {
 
+            Iterator<Enemy> enemies = mission.getEnemies().iterator();
             this.agent.setZone(position);
-
             path.add(position);
-
             neighbors = mission.getGraph().getNeighbor(position);
+            Iterator exit = mission.getEntryExit().iterator();
 
-            while (enemies.hasNext()){
+            while (enemies.hasNext()) {
 
                 currentEnemy = enemies.next();
 
-                 if(currentEnemy.getZone() == this.agent.getZone())
+                if (currentEnemy.getZone().equals(this.agent.getZone())) {
 
-                     this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
+                    this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
+                }
             }
 
-            if(mission.getTarget().getZone() == this.agent.getZone()){
+            if(mission.getTarget().getZone().equals(this.agent.getZone())){
+
 
                 hasTarget = true;
             }
 
+            while(exit.hasNext()) {
+
+                if(hasTarget && exit.next().equals(this.agent.getZone())){
+
+                    break search;
+                } else {
+
+                    exit.next();
+                }
+            }
+
+            System.out.println("\nOptions: ");
             while (neighbors.hasNext()){
 
                 currentNeighbor = neighbors.next();
-
-                System.out.println("Options");
                 System.out.println(currentNeighbor);
             }
+            System.out.println("\nAgent Health: "+ this.agent.getHealth());
 
-            System.out.println("Insert the next room: ");
+            System.out.println("\nInsert the next room: ");
 
             position = sc.nextLine();
 
-        } while(this.agent.getHealth() > 0 || hasTarget);
+        } while(this.agent.getHealth() >= 0);
+
+        System.out.println("\nMission Accomplished !!!\n");
+        System.out.println("Health: "+this.agent.getHealth());
+    }
+
+    public Iterator getAutomaticSimulation() throws EmptyCollectionException {
+        Iterator entries = mission.getEntryExit().iterator();
+        Iterator bestPath = null;
+        double bestPathWeight = Double.MAX_VALUE;
+
+        while (entries.hasNext()){
+            Iterator path = mission.getGraph().shortestCostPath(entries.next(),mission.getTarget().getZone());
+            Iterator copyIterator = mission.getGraph().shortestCostPath(entries.next(),mission.getTarget().getZone());
+            double pathWeight = mission.getGraph().getPathWeight(path);
+            if (pathWeight < bestPathWeight){
+                bestPath = copyIterator;
+                bestPathWeight = pathWeight;
+            }
+        }
+
+        //Adds the returning path
+        ArrayUnorderedList<String> resultPath = new ArrayUnorderedList<>();
+        ArrayUnorderedList<String> reversePath = new ArrayUnorderedList<>();
+        while (bestPath.hasNext()){
+            String nextZone = (String) bestPath.next();
+            resultPath.addToRear(nextZone);
+            reversePath.addToFront(nextZone);
+        }
+        Iterator returningPath = reversePath.iterator();
+        returningPath.next();
+        while (returningPath.hasNext()){
+            resultPath.addToRear((String) returningPath.next());
+        }
+
+        return resultPath.iterator();
+    }
+
+    public void printMatrix(){
+        System.out.println(mission.getGraph().toString());
     }
 }

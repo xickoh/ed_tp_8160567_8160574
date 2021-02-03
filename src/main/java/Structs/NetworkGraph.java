@@ -16,13 +16,23 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
     }
 
     @Override
+    public void addVertex (T vertex) {
+        super.addVertex(vertex);
+        if (weightMatrix.length == numVertices){
+            expandMatrixCapacity();
+        }
+    }
+
+    @Override
     public void addEdge(T vertex1, T vertex2, double weight) {
-        super.addEdge(vertex1, vertex2);
+
+        if (!vertex1.equals(vertex2)) {
+            super.addEdge(vertex1, vertex2);
+        }
         int index1 = getIndex(vertex1);
         int index2 = getIndex(vertex2);
-
-        this.weightMatrix[index1][index2] = weight;
-        this.weightMatrix[index2][index1] = weight;
+        this.weightMatrix[index1][index2] += weight;
+        this.weightMatrix[index2][index1] += weight;
     }
 
     @Override
@@ -142,7 +152,8 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
         return resultPath.iterator();
     }
 
-    public Iterator getNeighbor(T vertex){
+
+    public Iterator getNeighbor(T vertex) {
 
         int index = getIndex(vertex);
         ArrayUnorderedList<T> neighborList = new ArrayUnorderedList<>();
@@ -156,8 +167,22 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
         return neighborList.iterator();
     }
 
-    @Override
-    public String toString() {
+    public double getPathWeight(Iterator shortestCostPath){
+        T source = (T) shortestCostPath.next();
+        int previousIndex = getIndex(source);
+        double totalWeight = weightMatrix[previousIndex][previousIndex];
+
+        while(shortestCostPath.hasNext()){
+            T nextZone = (T) shortestCostPath.next();
+            int nextZoneIndex = getIndex(nextZone);
+            totalWeight += weightMatrix[previousIndex][nextZoneIndex];
+            previousIndex = nextZoneIndex;
+        }
+        return totalWeight;
+    }
+
+
+    public String toStringMatriz() {
 
         String s = "";
         String result = "";
@@ -189,4 +214,18 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
 
         return result;
     }
+
+    public void expandMatrixCapacity(){
+        double[][] copMatrix = new double[weightMatrix.length * 2][weightMatrix.length * 2];
+
+        for (int i = 0; i<weightMatrix.length; i++){
+            for (int j = 0; j<weightMatrix.length; j++){
+                copMatrix[i][j] = weightMatrix[i][j];
+            }
+        }
+
+        weightMatrix = copMatrix;
+
+    }
+
 }

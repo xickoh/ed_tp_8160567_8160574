@@ -33,7 +33,7 @@ public class IO<T> {
 
                 //Mission info
                 String missionCode = (String) map.get("cod-missao");
-                int version = ((Double) map.get("versao")).intValue();
+                int version = ((Long) map.get("versao")).intValue();
 
                 //Target info
                 JSONObject jsonTarget = (JSONObject) map.get("alvo");
@@ -72,11 +72,16 @@ public class IO<T> {
                 for (int i = 0; i<jsonEnemies.size(); i++){
                     JSONObject e = (JSONObject) jsonEnemies.get(i);
                     String eName = (String) e.get("nome");
-                    Double ePower = (Double) e.get("poder");
+                    Double ePower = ((Number) e.get("poder")).doubleValue();
                     String eZone = (String) e.get("divisao");
                     enemies.addToRear(new Enemy(eName, ePower, eZone));
                     for (int j = 0; j<ng.size(); j++) {
-                        ng.addEdge(ng.getVertices()[i], eZone, ePower);
+                        if (ng.getVertices()[j].equals(eZone)){
+                            ng.addEdge(ng.getVertices()[j], eZone, ePower);
+                        }
+                        if (ng.getAdjMatrix()[j][ng.getIndex(eZone)]) {
+                            ng.addEdge(ng.getVertices()[j], eZone, ePower);
+                        }
                     }
                 }
 
