@@ -142,6 +142,20 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
         return resultPath.iterator();
     }
 
+    public Iterator getNeighbor(T vertex){
+
+        int index = getIndex(vertex);
+        ArrayUnorderedList<T> neighborList = new ArrayUnorderedList<>();
+
+        for (int i = 0; i < this.numVertices; i++) {
+            if (this.adjMatrix[index][i]) {
+                neighborList.addToRear(vertices[i]);
+            }
+        }
+
+        return neighborList.iterator();
+    }
+
     @Override
     public String toString() {
 
