@@ -1,7 +1,6 @@
 package Structs;;
 
 import Exceptions.ElementNotFoundException;
-import Ficha9.BinaryTreeADT;
 
 public interface BinarySearchTreeADT<T> extends BinaryTreeADT<T> {
 

@@ -57,15 +57,15 @@ public class Graph<T> implements GraphADT<T> {
      */
     public void addVertex (T vertex)
     {
-        if (numVertices == vertices.length)
+        if (numVertices == vertices.length) {
             expandCapacity();
-        vertices[numVertices] = vertex;
+        }
         for (int i = 0; i <= numVertices; i++)
         {
             adjMatrix[numVertices][i] = false;
             adjMatrix[i][numVertices] = false;
         }
-        numVertices++;
+        vertices[numVertices++] = vertex;
     }
 
     @Override
@@ -286,33 +286,39 @@ public class Graph<T> implements GraphADT<T> {
     public void expandCapacity(){
 
         T[] copArray = (T[])new Object[vertices.length * 2];
+        boolean[][] copAdjMatrix = new boolean[adjMatrix.length * 2][adjMatrix.length * 2];
+
 
         for(int i = 0; i < vertices.length; i++)
         {
             copArray[i] = vertices[i];
         }
 
+        for (int i = 0; i<vertices.length; i++){
+            for (int j = 0; j<vertices.length; j++){
+                copAdjMatrix[i][j] = adjMatrix[i][j];
+            }
+        }
+
         vertices = copArray;
+        adjMatrix = copAdjMatrix;
 
         System.out.println("Capacity extended");
 
     }
 
     public boolean indexIsValid(int index) {
-        return vertices[index] != null ? true : false;
+        return (index == -1 || vertices[index] == null) ? false : true;
     }
 
     public int getIndex(T vertex){
 
-        int i;
-
-        for (i = 0; i < vertices.length; i++){
-            if(vertex == vertices[i]){
+        for (int i = 0; i < vertices.length; i++){
+            if(vertex.equals(vertices[i])){
                 return i;
             }
         }
-
-        return i;
+        return -1;
     }
 
     public String toString(Iterator itr) {
@@ -328,5 +334,9 @@ public class Graph<T> implements GraphADT<T> {
 
     public T[] getVertices(){
         return this.vertices;
+    }
+
+    public boolean[][] getAdjMatrix(){
+        return adjMatrix;
     }
 }
