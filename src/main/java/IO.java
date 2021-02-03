@@ -68,25 +68,23 @@ public class IO {
 
                 //Enemies
                 JSONArray jsonEnemies = (JSONArray) map.get("inimigos");
-                Enemy[] enemies = new Enemy[jsonEnemies.size()];
+                ArrayUnorderedList<Enemy> enemies = new ArrayUnorderedList<>();
 
                 for (int i = 0; i<jsonEnemies.size(); i++){
                     JSONObject e = (JSONObject) jsonEnemies.get(i);
                     String eName = (String) e.get("nome");
                     Double ePower = (Double) e.get("poder");
                     String eZone = (String) e.get("divisao");
-                    enemies[i] = new Enemy(eName, ePower, eZone);
+                    enemies.addToRear(new Enemy(eName, ePower, eZone));
                     for (int j = 0; j<ng.size(); j++) {
                         ng.addEdge(ng.getVertices()[i], eZone, ePower);
                     }
                 }
 
-                return new Mission(ng, entryExit, target, enemies);
+                return new Mission(ng, entryExit, target, enemies, missionCode, version);
             }
 
         return null;
     }
-
-    public
 
 }

@@ -60,7 +60,7 @@ public class DoubleLinkedUnorderedList<T> extends DoubleLinkedList<T> implements
         DoubleNode<T> newNode = new DoubleNode<>(element);
 
         if(!contains(target))
-            throw new ElementNotFoundException("Target not found");
+            throw new ElementNotFoundException("tar not found");
 
         while(!this.current.getElement().equals(target) && current != null){
 
