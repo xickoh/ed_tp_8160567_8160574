@@ -32,7 +32,6 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
         int index1 = getIndex(vertex1);
         int index2 = getIndex(vertex2);
         this.weightMatrix[index1][index2] += weight;
-        this.weightMatrix[index2][index1] += weight;
     }
 
     @Override
