@@ -1,7 +1,7 @@
 import Structs.ArrayUnorderedList;
 import Structs.NetworkGraph;
 
-public class Map<T> {
+public class Mission<T> {
 
     private NetworkGraph<T> graph;
     private ArrayUnorderedList<T> entryExit;
@@ -20,7 +20,7 @@ public class Map<T> {
      * @param missionCode represents the code of the mission
      * @param version represents the version
      */
-    public Map(NetworkGraph<T> graph,
+    public Mission(NetworkGraph<T> graph,
                ArrayUnorderedList<T> entryExit,
                Target target,
                ArrayUnorderedList<Enemy> enemies,
