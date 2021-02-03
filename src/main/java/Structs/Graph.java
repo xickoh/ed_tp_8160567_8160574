@@ -1,10 +1,6 @@
 package Structs;
 
-import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;
-import Ficha3.LinkedStack;
-import Ficha4.LinkedQueue;
-
 
 import java.util.Iterator;
 
@@ -328,5 +324,9 @@ public class Graph<T> implements GraphADT<T> {
         }while(itr.hasNext());
 
         return str;
+    }
+
+    public T[] getVertices(){
+        return this.vertices;
     }
 }
