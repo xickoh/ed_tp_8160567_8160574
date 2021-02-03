@@ -27,6 +27,8 @@ public class Map<T> {
                String missionCode,
                int version) {
 
+        this.enemies = new ArrayUnorderedList<>();
+
         this.graph = graph;
         this.entryExit = entryExit;
         this.target = target;
@@ -34,7 +36,6 @@ public class Map<T> {
         this.missionCode = missionCode;
         this.version = version;
 
-        this.version
     }
 
     /**
