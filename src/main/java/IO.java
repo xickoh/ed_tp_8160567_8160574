@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class IO {
+public class IO<T> {
 
     /**
      * Reads from .json file in order to populate the graph with the
@@ -20,7 +20,7 @@ public class IO {
      * @throws IOException
      * @throws ParseException
      */
-    public Mission importMission(String path) throws IOException, ParseException {
+    public static Mission importMission(String path) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
             File file = new File("data/" + path);
 
