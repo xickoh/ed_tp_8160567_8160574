@@ -28,7 +28,6 @@ public class Mission<T> {
                int version) {
 
         this.enemies = new ArrayUnorderedList<>();
-
         this.graph = graph;
         this.entryExit = entryExit;
         this.target = target;
