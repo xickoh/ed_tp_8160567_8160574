@@ -1,15 +1,15 @@
 import Exceptions.EmptyCollectionException;
-import Structs.ArrayUnorderedList;
-import Structs.LinkedQueue;
-import Structs.NetworkGraph;
+import Structs.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 
 public class IO<T> {
 
@@ -131,6 +131,46 @@ public class IO<T> {
             FileWriter fileWriter = new FileWriter("data/missionResults.json");
             fileWriter.write(results.toJSONString());
             fileWriter.flush();
+    }
+
+    public static Iterator missionResults() throws IOException, ParseException{
+
+        JSONParser parser = new JSONParser();
+        File file = new File("data/missionResults.json");
+        LinkedHeap<MissionResult> listResults = new LinkedHeap<>();
+
+        if (file.length() != 0) {
+
+            Object obj = parser.parse(new FileReader(file));
+            JSONObject allResults = (JSONObject) obj;
+            JSONArray results = (JSONArray) allResults.get("results");
+
+            for(Object o : results){
+
+                ArrayUnorderedList<String> path = new ArrayUnorderedList<>();
+                JSONObject result = (JSONObject) o;
+
+                String missionCode = (String) result.get("missionCode");
+                int version = ((Long) result.get("version")).intValue();
+                double health = (double) result.get("health");
+                String date = (String) result.get("date");
+
+                JSONArray jsonPath = (JSONArray) result.get("path");
+
+                for(Object i : jsonPath){
+
+                    String zone = (String) i;
+                    path.addToRear(zone);
+                }
+
+                listResults.addElement(new MissionResult(health, path, version, missionCode, date));
+
+            }
+
+            return listResults.iteratorLevelOrder();
+        }
+
+        return null;
     }
 
 }

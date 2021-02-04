@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
 
-        playMusic("MissionImpossible.wav");
+        //playMusic("MissionImpossible.wav");
 
         Agent p = new Agent("Kim");
         try {
@@ -23,14 +23,19 @@ public class Main {
 
             Iterator i = s.getAutomaticSimulation();
 
-            s.printMatrix();
+            //s.getManualSimulation();
 
-            s.getManualSimulation();
-            
-            while(i.hasNext()){
+            Iterator h = IO.missionResults();
+
+            while(h.hasNext()){
+
+                System.out.print(h.next());
+            }
+
+/*            while(i.hasNext()){
 
                 System.out.print(i.next()+" -> ");
-            }
+            }*/
             System.out.print("Hotel ->");
             System.out.print(" Trivago ->");
             System.out.print(" Papar gajas, because it's TÓ fucking CRUZ");
