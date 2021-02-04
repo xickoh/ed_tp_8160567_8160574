@@ -1,13 +1,15 @@
+import Exceptions.EmptyCollectionException;
 import Structs.ArrayUnorderedList;
+import Structs.LinkedQueue;
 import Structs.NetworkGraph;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class IO<T> {
 
@@ -89,6 +91,46 @@ public class IO<T> {
             }
 
         return null;
+    }
+
+    public static void exportMission(LinkedQueue path, double health, String missionCode, int version)
+            throws IOException, ParseException, EmptyCollectionException {
+
+        JSONParser parser = new JSONParser();
+        File file = new File("data/missionResults.json");
+        JSONArray resultsArray = new JSONArray();
+
+        if (file.length() != 0) {
+            Object obj = parser.parse(new FileReader(file));
+            JSONObject jsonResults = (JSONObject) obj;
+            resultsArray = (JSONArray) jsonResults.get("results");
+        }
+
+        JSONObject newResult = new JSONObject();
+
+        newResult.put("health", health);
+        newResult.put("missionCode", missionCode);
+        newResult.put("version", version);
+
+        Date date = new Date();
+        SimpleDateFormat formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        newResult.put("date", formattedDate.format(date));
+
+        JSONArray jsonPath = new JSONArray();
+        while (!path.isEmpty()){
+            jsonPath.add(path.dequeue());
+        }
+
+        newResult.put("path", jsonPath);
+        resultsArray.add(newResult);
+
+        JSONObject results = new JSONObject();
+        results.put("results", resultsArray);
+
+            FileWriter fileWriter = new FileWriter("data/missionResults.json");
+            fileWriter.write(results.toJSONString());
+            fileWriter.flush();
     }
 
 }

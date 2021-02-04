@@ -25,7 +25,7 @@ public class Simulation<T> {
 
     }
 
-    public void getManualSimulation() throws NotComparableException {
+    public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
 
         Scanner sc = new Scanner(System.in);
         LinkedQueue<String> path = new LinkedQueue<>();
@@ -65,7 +65,7 @@ public class Simulation<T> {
                     System.out.println("\nAgent suffered damage from "+ currentEnemy.getName() +": -"+ currentEnemy.getPower()+" Health");
 
                     if(this.agent.getHealth() < 0){
-
+                        this.agent.setHealth(0);
                         System.out.println(this.agent.getName()+ "is dead !!");
                         break search;
                     }
@@ -102,7 +102,8 @@ public class Simulation<T> {
 
         } while(this.agent.getHealth() >= 0);
 
-        IO.exportMission(path, this.agent.getHealth());
+        IO.exportMission(path, this.agent.getHealth(),
+                this.mission.getMissionCode(), this.mission.getVersion());
 
         System.out.println("\nMission Accomplished !!!\n");
         System.out.println("Health: "+this.agent.getHealth());

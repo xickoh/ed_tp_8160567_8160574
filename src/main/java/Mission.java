@@ -73,4 +73,20 @@ public class Mission<T> {
     public ArrayUnorderedList<Enemy> getEnemies() {
         return this.enemies;
     }
+
+    /**
+     * Returns the mission code
+     * @return missionCode
+     */
+    public String getMissionCode() {
+        return missionCode;
+    }
+
+    /**
+     * Returns the mission's version
+     * @return version
+     */
+    public int getVersion() {
+        return version;
+    }
 }
