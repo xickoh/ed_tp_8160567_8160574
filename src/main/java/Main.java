@@ -62,20 +62,27 @@ public class Main {
             option = s.nextLine();
             clearScreen();
             try {
-                Simulation simulation = new Simulation("mission.json", p);
 
                 switch (Integer.parseInt(option)) {
-                    case 1:
+                    case 1: {
+                        String path = chooseMap();
+                        Simulation simulation = new Simulation(path, p);
+
                         Iterator i = simulation.getAutomaticSimulation();
 
                         while (i.hasNext()) {
                             System.out.print(i.next() + " -> ");
                         }
-                        break;
-                    case 2:
+                    }
+                    break;
+                    case 2: {
+                        String path = chooseMap();
+                        Simulation simulation = new Simulation(path, p);
+
                         playMusic("MissionImpossible.wav");
                         simulation.getManualSimulation();
                         break;
+                    }
                     case 3:
                         break;
                     case 4:
@@ -95,6 +102,29 @@ public class Main {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static String chooseMap(){
+
+        System.out.println("Roger that. Choose a mission to deploy");
+
+        File folder = new File("data/maps");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                System.out.println((i+1) + " - " + listOfFiles[i].getName());
+            }
+        }
+
+        Scanner s = new Scanner(System.in);
+        int option = s.nextInt();
+        while (option < 1 || option > listOfFiles.length) {
+            System.out.println("It's not time to joke around, select a valid option");
+            option = s.nextInt();
+        }
+
+        return listOfFiles[option - 1].getName();
     }
 
     public static void main(String[] args) {

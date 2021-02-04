@@ -24,7 +24,7 @@ public class IO<T> {
      */
     public static Mission importMission(String path) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
-            File file = new File("data/" + path);
+            File file = new File("data/maps/" + path);
 
             if (file.length() != 0) {
 
