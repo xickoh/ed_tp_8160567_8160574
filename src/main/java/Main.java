@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
 
-        //playMusic("MissionImpossible.wav");
+        playMusic("MissionImpossible.wav");
 
         Agent p = new Agent("Kim");
         try {
@@ -53,6 +53,7 @@ public class Main {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInput);
                 clip.start();
+
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             }else {
 
