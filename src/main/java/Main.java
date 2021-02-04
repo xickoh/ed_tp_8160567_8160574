@@ -1,11 +1,20 @@
 import Exceptions.EmptyCollectionException;
 import org.json.simple.parser.ParseException;
 
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) {
+
+        //playMusic("MissionImpossible.wav");
 
         Agent p = new Agent("Kim");
         try {
@@ -14,9 +23,9 @@ public class Main {
 
             Iterator i = s.getAutomaticSimulation();
 
-            //s.printMatrix();
+            s.printMatrix();
 
-            //s.getManualSimulation();
+            s.getManualSimulation();
             
             while(i.hasNext()){
 
@@ -29,6 +38,29 @@ public class Main {
         } catch (Exception e) {
 
             e.printStackTrace();
+        }
+    }
+
+    public static void  playMusic(String filepath){
+
+        try{
+
+            File musicPath = new File(filepath);
+
+            if(musicPath.exists()){
+
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }else {
+
+                System.out.println("Can't find music");
+            }
+        }catch (Exception ex){
+
+            ex.printStackTrace();
         }
     }
 }

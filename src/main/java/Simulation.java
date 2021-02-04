@@ -60,6 +60,8 @@ public class Simulation<T> {
                 if (currentEnemy.getZone().equals(this.agent.getZone())) {
 
                     this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
+
+                    System.out.println("\nAgent suffered damage from "+ currentEnemy.getName() +": -"+ currentEnemy.getPower()+" Health");
                 }
             }
 
