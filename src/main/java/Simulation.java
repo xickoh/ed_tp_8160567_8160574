@@ -1,13 +1,15 @@
 
 import Exceptions.NotComparableException;
-import Structs.ArrayOrderedList;
+
 
 import Exceptions.EmptyCollectionException;
 import Structs.ArrayUnorderedList;
+import Structs.LinkedQueue;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Iterator;
+
 import java.util.Scanner;
 
 
@@ -26,7 +28,7 @@ public class Simulation<T> {
     public void getManualSimulation() throws NotComparableException {
 
         Scanner sc = new Scanner(System.in);
-        ArrayOrderedList<String> path = new ArrayOrderedList<>();
+        LinkedQueue<String> path = new LinkedQueue<>();
         Iterator<String> neighbors;
         Iterator<String> entry = mission.getEntryExit().iterator();
         Enemy currentEnemy;
@@ -49,7 +51,7 @@ public class Simulation<T> {
 
             Iterator<Enemy> enemies = mission.getEnemies().iterator();
             this.agent.setZone(position);
-            path.add(position);
+            path.enqueue(position);
             neighbors = mission.getGraph().getNeighbor(position);
             Iterator exit = mission.getEntryExit().iterator();
 
@@ -60,13 +62,17 @@ public class Simulation<T> {
                 if (currentEnemy.getZone().equals(this.agent.getZone())) {
 
                     this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
-
                     System.out.println("\nAgent suffered damage from "+ currentEnemy.getName() +": -"+ currentEnemy.getPower()+" Health");
+
+                    if(this.agent.getHealth() < 0){
+
+                        System.out.println(this.agent.getName()+ "is dead !!");
+                        break search;
+                    }
                 }
             }
 
             if(mission.getTarget().getZone().equals(this.agent.getZone())){
-
 
                 hasTarget = true;
             }
@@ -95,6 +101,8 @@ public class Simulation<T> {
             position = sc.nextLine();
 
         } while(this.agent.getHealth() >= 0);
+
+        IO.exportMission(path, this.agent.getHealth());
 
         System.out.println("\nMission Accomplished !!!\n");
         System.out.println("Health: "+this.agent.getHealth());
