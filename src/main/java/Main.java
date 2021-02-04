@@ -97,78 +97,38 @@ public class Main {
         }
     }
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 
-            Scanner s = new Scanner(System.in);
-            System.out.println("\n" +
-                    "███▓  ███▄ ▄███▓  ██████▒\n" +
-                    "▓██▒ ▓██▒▀█▀ ██▒ ▓██    ▒ \n" +
-                    "▒██▒ ▓██    ▓██░ ▒████  ░ \n" +
-                    "░██░ ▒██    ▒██  ░▓█▒   ░ \n" +
-                    "░██░ ▒██▒   ░██▒ ░▒█░    \n" +
-                    "░▓  ░ ▒░   ░  ░  ▒ ░    \n" +
-                    " ▒  ░░  ░      ░  ░      \n" +
-                    " ▒  ░░      ░     ░ ░    \n" +
-                    " ░         ░           \n");
+        Scanner s = new Scanner(System.in);
+        System.out.println("\n" +
+                "███▓  ███▄ ▄███▓  ██████▒\n" +
+                "▓██▒ ▓██▒▀█▀ ██▒ ▓██    ▒ \n" +
+                "▒██▒ ▓██    ▓██░ ▒████  ░ \n" +
+                "░██░ ▒██    ▒██  ░▓█▒   ░ \n" +
+                "░██░ ▒██▒   ░██▒ ░▒█░    \n" +
+                "░▓  ░ ▒░   ░  ░  ▒ ░    \n" +
+                " ▒  ░░  ░      ░  ░      \n" +
+                " ▒  ░░      ░     ░ ░    \n" +
+                " ░         ░           \n");
 
-            System.out.println("The agency Improbable Mission Force wants to know your name.");
-            System.out.print("\u001B[32m I never tell my real name, but you can call me... ");
-            Agent p = new Agent(s.nextLine());
+        System.out.println("The agency Improbable Mission Force wants to know your name.");
+        System.out.print("\u001B[32m I never tell my real name, but you can call me... ");
+        Agent p = new Agent(s.nextLine());
 
-            clearScreen();
+        clearScreen();
 
-            System.out.println("█░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░█");
-            System.out.println("\n" +
-                    "▀█▀ █▀▄▀█ █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀█ █▀▀▄ █░░ █▀▀ 　 ▒█▀▄▀█ ░▀░ █▀▀ █▀▀ ░▀░ █▀▀█ █▀▀▄ \n" +
-                    "▒█░ █░▀░█ █░░█ █▄▄▀ █░░█ █▀▀▄ █▄▄█ █▀▀▄ █░░ █▀▀ 　 ▒█▒█▒█ ▀█▀ ▀▀█ ▀▀█ ▀█▀ █░░█ █░░█ \n" +
-                    "▄█▄ ▀░░░▀ █▀▀▀ ▀░▀▀ ▀▀▀▀ ▀▀▀░ ▀░░▀ ▀▀▀░ ▀▀▀ ▀▀▀ 　 ▒█░░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀▀ ▀░░▀ \n" +
-                    "\n" +
-                    "▒█▀▀▀ █▀▀█ █▀▀█ █▀▀ █▀▀ \n" +
-                    "▒█▀▀▀ █░░█ █▄▄▀ █░░ █▀▀ \n" +
-                    "▒█░░░ ▀▀▀▀ ▀░▀▀ ▀▀▀ ▀▀▀ \n");
+        System.out.println("█░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░█");
+        System.out.println("\n" +
+                "▀█▀ █▀▄▀█ █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀█ █▀▀▄ █░░ █▀▀ 　 ▒█▀▄▀█ ░▀░ █▀▀ █▀▀ ░▀░ █▀▀█ █▀▀▄ \n" +
+                "▒█░ █░▀░█ █░░█ █▄▄▀ █░░█ █▀▀▄ █▄▄█ █▀▀▄ █░░ █▀▀ 　 ▒█▒█▒█ ▀█▀ ▀▀█ ▀▀█ ▀█▀ █░░█ █░░█ \n" +
+                "▄█▄ ▀░░░▀ █▀▀▀ ▀░▀▀ ▀▀▀▀ ▀▀▀░ ▀░░▀ ▀▀▀░ ▀▀▀ ▀▀▀ 　 ▒█░░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀▀ ▀░░▀ \n" +
+                "\n" +
+                "▒█▀▀▀ █▀▀█ █▀▀█ █▀▀ █▀▀ \n" +
+                "▒█▀▀▀ █░░█ █▄▄▀ █░░ █▀▀ \n" +
+                "▒█░░░ ▀▀▀▀ ▀░▀▀ ▀▀▀ ▀▀▀ \n");
 
-            System.out.println("Welcome aboard \u001B[36m" + p.getName() + "\u001B[32m");
+        System.out.println("Welcome aboard \u001B[36m" + p.getName() + "\u001B[32m");
 
-            printMenu(p);
-
-//
-//        try {
-//
-//            Simulation s = new Simulation("mission.json", p);
-//
-//            Iterator i = s.getAutomaticSimulation();
-//
-//            s.printMatrix();
-//
-//            s.getManualSimulation();
-//
-//
-//        } catch (Exception e) {
-//
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static void  playMusic(String filepath){
-//
-//        try{
-//
-//            File musicPath = new File(filepath);
-//
-//            if(musicPath.exists()){
-//
-//                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-//                Clip clip = AudioSystem.getClip();
-//                clip.open(audioInput);
-//                clip.start();
-//                clip.loop(Clip.LOOP_CONTINUOUSLY);
-//            }else {
-//
-//                System.out.println("Can't find music");
-//            }
-//        }catch (Exception ex){
-//
-//            ex.printStackTrace();
-//        }
-        }
+        printMenu(p);
     }
+}

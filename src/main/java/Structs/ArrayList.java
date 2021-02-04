@@ -160,8 +160,6 @@ public class ArrayList<T> implements ListADT<T>, Iterable<T> {
 
         list = copArray;
 
-        System.out.println("Capacity extended");
-
     }
 
     @Override
