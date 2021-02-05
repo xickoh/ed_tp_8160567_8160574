@@ -1,5 +1,7 @@
 import Exceptions.EmptyCollectionException;
 import Exceptions.NotComparableException;
+import Structs.ArrayList;
+import Structs.ArrayUnorderedList;
 import org.json.simple.parser.ParseException;
 
 
@@ -88,12 +90,35 @@ public class Main {
                     }
                     case 3:
 
-                        Iterator list = IO.missionResults();
-                        while (list.hasNext()) {
-                            System.out.print(list.next());
+                        Scanner cs = new Scanner(System.in);
+                        Iterator missions = IO.readMission();
+                        ArrayUnorderedList<String> listMissions = new ArrayUnorderedList<>();
+
+                        while (missions.hasNext()){
+                            listMissions.addToRear((String) missions.next());
                         }
+
+                        for(int i = 0; i < listMissions.size(); i++){
+                            System.out.println((i + 1) + " - " + listMissions.index(i));
+                        }
+
+                        int c = cs.nextInt();
+                        while (c < 1 || c > listMissions.size()) {
+                            System.out.println("It's not time to joke around, select a valid option");
+                            c = cs.nextInt();
+                        }
+
+                        Iterator list = IO.missionResults();
+
+                        while (list.hasNext()) {
+                            MissionResult mission = (MissionResult) list.next();
+                            if(mission.getCodMission().equals(listMissions.index(c-1)))
+                                System.out.print(mission);
+                        }
+
                         backToMenu();
                         break;
+
                     case 4: {
                         String path = chooseMap();
                         Simulation simulation = new Simulation(path, p);

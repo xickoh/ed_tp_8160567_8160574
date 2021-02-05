@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Queue;
 
 public class IO<T> {
 
@@ -173,4 +174,33 @@ public class IO<T> {
         return null;
     }
 
+    public static Iterator readMission() throws IOException, ParseException, EmptyCollectionException{
+
+        JSONParser parser = new JSONParser();
+        File file = new File("data/missionResults.json");
+        ArrayUnorderedList<String> listMissions = new ArrayUnorderedList<>();
+
+        if (file.length() != 0) {
+
+            Object obj = parser.parse(new FileReader(file));
+            JSONObject allResults = (JSONObject) obj;
+            JSONArray results = (JSONArray) allResults.get("results");
+
+
+
+            for (Object o : results) {
+
+                JSONObject result = (JSONObject) o;
+                String missionCode = (String) result.get("missionCode");
+
+                if(!listMissions.contains(missionCode)){
+
+                    listMissions.addToRear(missionCode);
+
+                }
+            }
+        }
+
+        return listMissions.iterator();
+    }
 }

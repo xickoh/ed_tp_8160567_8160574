@@ -89,20 +89,20 @@ public class ArrayList<T> implements ListADT<T>, Iterable<T> {
         return this.list[count-1];
     }
 
+    public T index(int index) { return this.list[index]; }
     @Override
     public boolean contains(T target) {
 
         int i = 0;
-        boolean found = false;
 
-        while (i < count && !found){
-            if (this.list[i] == target){
-                found = true;
+        while (i < count){
+            if (this.list[i].equals(target)){
+                return true;
             }
             i++;
         }
 
-        return found;
+        return false;
     }
 
     @Override
