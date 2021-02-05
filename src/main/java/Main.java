@@ -44,7 +44,7 @@ public class Main {
     public static void printMenu(Agent p){
         Scanner s = new Scanner(System.in);
         String option = "0";
-        while (Integer.parseInt(option)!=4) {
+        while (Integer.parseInt(option)!=5) {
 
             System.out.println("\u001B[0m _______________________________________");
             System.out.println("│ Select an option:                     │");
@@ -52,11 +52,12 @@ public class Main {
             System.out.println("│  │ 1- Automatic Simulation         │  │▒");
             System.out.println("│  │ 2- Manual Simulation            │  │▒");
             System.out.println("│  │ 3- History                      │  │▒");
+            System.out.println("│  │ 4- Map View                     │  │▒");
             System.out.println("│   ─────────────────────────────────   │▒");
             System.out.println("│_______________________________________│▒");
-            System.out.println("│ 4- Exit                               │▒");
+            System.out.println("│ 5- Exit                               │▒");
             System.out.println("|_______________________________________|▒");
-            System.out.println("   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n\n");
+            System.out.println(" ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n\n");
 
             System.out.print("Your option: ");
             option = s.nextLine();
@@ -69,10 +70,10 @@ public class Main {
                         Simulation simulation = new Simulation(path, p);
 
                         Iterator i = simulation.getAutomaticSimulation();
-
                         while (i.hasNext()) {
                             System.out.print(i.next() + " -> ");
                         }
+
                     }
                     break;
                     case 2: {
@@ -81,11 +82,27 @@ public class Main {
 
                         playMusic("MissionImpossible.wav");
                         simulation.getManualSimulation();
+
+                        backToMenu();
                         break;
                     }
                     case 3:
+
+                        Iterator list = IO.missionResults();
+                        while (list.hasNext()) {
+                            System.out.print(list.next());
+                        }
+                        backToMenu();
                         break;
-                    case 4:
+                    case 4: {
+                        String path = chooseMap();
+                        Simulation simulation = new Simulation(path, p);
+
+                        System.out.println(simulation.getMap());
+                        backToMenu();
+                        break;
+                    }
+                    case 5:
                         System.out.println("\u001B[32mUsually I never quit, but this is too much\u001B[0m");
                         return;
                     default:
@@ -104,7 +121,8 @@ public class Main {
         }
     }
 
-    public static String chooseMap(){
+
+    public static String chooseMap() {
 
         System.out.println("Roger that. Choose a mission to deploy");
 
@@ -113,7 +131,7 @@ public class Main {
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
-                System.out.println((i+1) + " - " + listOfFiles[i].getName());
+                System.out.println((i + 1) + " - " + listOfFiles[i].getName());
             }
         }
 
@@ -127,6 +145,14 @@ public class Main {
         return listOfFiles[option - 1].getName();
     }
 
+    public static void backToMenu(){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n\nPress any key to go back to the menu");
+        sc.nextLine();
+
+    }
+
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
@@ -137,6 +163,7 @@ public class Main {
                 "██░  ██░    ██░  ██▒    \n" +
                 "██░  ██▒    ██▒  ██░    \n");
 
+
         System.out.println("The agency Improbable Mission Force wants to know your name.");
         System.out.print("\u001B[32mI never tell my real name, but you can call me... ");
         Agent p = new Agent(s.nextLine());
@@ -145,7 +172,7 @@ public class Main {
 
         System.out.println("█░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░█");
         System.out.println("\n" +
-                "▀█▀ █▀▄▀█ █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀█ █▀▀▄ █░░ █▀▀ 　 ▒█▀▄▀█ ░▀░ █▀▀ █▀▀ ░▀░ █▀▀█ █▀▀▄ \n" +
+                "▀█▀ █▀▄▀█  █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀█ █▀▀▄ █░░ █▀▀ 　 ▒█▀▄▀█ ░▀░ █▀▀ █▀▀ ░▀░ █▀▀█ █▀▀▄ \n" +
                 "▒█░ █░▀░█ █░░█ █▄▄▀ █░░█ █▀▀▄ █▄▄█ █▀▀▄ █░░ █▀▀ 　 ▒█▒█▒█ ▀█▀ ▀▀█ ▀▀█ ▀█▀ █░░█ █░░█ \n" +
                 "▄█▄ ▀░░░▀ █▀▀▀ ▀░▀▀ ▀▀▀▀ ▀▀▀░ ▀░░▀ ▀▀▀░ ▀▀▀ ▀▀▀ 　 ▒█░░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀▀ ▀░░▀ \n" +
                 "\n" +
