@@ -181,7 +181,7 @@ public class NetworkGraph<T> extends Graph<T> implements NetworkADT<T> {
     }
 
 
-    public String toStringMatriz() {
+    public String toStringMatrix() {
 
         String s = "";
         String result = "";

@@ -141,7 +141,28 @@ public class Simulation<T> {
         return resultPath.iterator();
     }
 
-    public void printMatrix(){
-        System.out.println(mission.getGraph().toString());
+    public String getMap(){
+
+        Iterator<String> neighbors;
+        Iterator<String> entry = this.mission.getEntryExit().iterator();
+        Iterator<String> graph = this.mission.getGraph().iteratorBFS(entry.next());
+
+        String str = "";
+
+        while(graph.hasNext()){
+
+            String currentVertex = graph.next();
+
+            neighbors = this.mission.getGraph().getNeighbor(currentVertex);
+
+            str += "\n\nThe room "+ currentVertex +" has this conections: ";
+
+            while (neighbors.hasNext()){
+
+                str += " "+neighbors.next()+"";
+            }
+        }
+
+        return str;
     }
 }

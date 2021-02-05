@@ -330,8 +330,8 @@ public class Graph<T> implements GraphADT<T> {
         return str;
     }
 
-    @Override
-    public String toString() {
+    /** @Override
+   public String toString() {
 
         String s = "";
         String result = "";
@@ -362,7 +362,7 @@ public class Graph<T> implements GraphADT<T> {
 
 
         return result;
-    }
+    }**/
 
     public T[] getVertices(){
         return this.vertices;
