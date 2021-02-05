@@ -31,61 +31,34 @@ public class Simulation<T> {
         LinkedQueue<String> path = new LinkedQueue<>();
         Iterator<String> neighbors;
         Iterator<String> entry = mission.getEntryExit().iterator();
-        Enemy currentEnemy;
         String currentNeighbor;
         boolean hasTarget = false;
 
-        System.out.println("New simulation manual\n");
+        System.out.println("New manual simulationl\n");
         System.out.println("Entries:");
 
         while (entry.hasNext()){
-
             System.out.println(entry.next());
         }
 
         System.out.println("\nInsert the inicial position: ");
         String position = sc.nextLine();
 
-        search:
         do {
+            //Clears the screen
+            Main.clearScreen();
 
-            Iterator<Enemy> enemies = mission.getEnemies().iterator();
             this.agent.setZone(position);
             path.enqueue(position);
             neighbors = mission.getGraph().getNeighbor(position);
-            Iterator exit = mission.getEntryExit().iterator();
-
-            while (enemies.hasNext()) {
-
-                currentEnemy = enemies.next();
-
-                if (currentEnemy.getZone().equals(this.agent.getZone())) {
-
-                    this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
-                    System.out.println("\nAgent suffered damage from "+ currentEnemy.getName() +": -"+ currentEnemy.getPower()+" Health");
-
-                    if(this.agent.getHealth() < 0){
-                        this.agent.setHealth(0);
-                        System.out.println(this.agent.getName()+ "is dead !!");
-                        break search;
-                    }
-                }
-            }
 
             if(mission.getTarget().getZone().equals(this.agent.getZone())){
-
                 hasTarget = true;
+                System.out.println("\u001B[33mTarget acquired. Leaving now.\u001B[0m");
             }
 
-            while(exit.hasNext()) {
-
-                if(hasTarget && exit.next().equals(this.agent.getZone())){
-
-                    break search;
-                } else {
-
-                    exit.next();
-                }
+            if(isAgentDown() || isReadyToLeave(hasTarget)){
+                break;
             }
 
             System.out.println("\nOptions: ");
@@ -94,19 +67,65 @@ public class Simulation<T> {
                 currentNeighbor = neighbors.next();
                 System.out.println(currentNeighbor);
             }
-            System.out.println("\nAgent Health: "+ this.agent.getHealth());
+            System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
 
+            if (hasTarget){
+                System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
+            }
             System.out.println("\nInsert the next room: ");
 
             position = sc.nextLine();
 
-        } while(this.agent.getHealth() >= 0);
+        } while(this.agent.getHealth() > 0);
 
         IO.exportMission(path, this.agent.getHealth(),
                 this.mission.getMissionCode(), this.mission.getVersion());
 
-        System.out.println("\nMission Accomplished !!!\n");
-        System.out.println("Health: "+this.agent.getHealth());
+        if (this.agent.getHealth()>0){
+            System.out.println("\n\u001B[32mMission Accomplished !!!\u001B[32m\n");
+            System.out.println("Health: "+this.agent.getHealth());
+        }
+
+    }
+
+    public boolean isAgentDown(){
+        Iterator<Enemy> enemies = mission.getEnemies().iterator();
+        Enemy currentEnemy;
+
+        while (enemies.hasNext()) {
+
+            currentEnemy = enemies.next();
+
+            if (currentEnemy.getZone().equals(this.agent.getZone())) {
+
+                this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
+                System.out.println("\n\u001B[31mAgent suffered damage from "+ currentEnemy.getName() +": -"+ currentEnemy.getPower()+" Health\u001B[0m");
+
+                if(this.agent.getHealth() < 0){
+                    this.agent.setHealth(0);
+                    System.out.println("\u001B[31mAgent " + this.agent.getName()+ " down, I repeat, agent "
+                            + this.agent.getName() + " down!\u001B[0m");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isReadyToLeave(boolean hasTarget){
+        if (!hasTarget){
+            return false;
+        }
+
+        Iterator exit = mission.getEntryExit().iterator();
+        while(exit.hasNext()) {
+            if(exit.next().equals(this.agent.getZone())){
+                return true;
+            } else {
+                exit.next();
+            }
+        }
+        return false;
     }
 
     public Iterator getAutomaticSimulation() throws EmptyCollectionException {

@@ -131,18 +131,14 @@ public class Main {
 
         Scanner s = new Scanner(System.in);
         System.out.println("\n" +
-                "███▓  ███▄ ▄███▓  ██████▒\n" +
-                "▓██▒ ▓██▒▀█▀ ██▒ ▓██    ▒ \n" +
-                "▒██▒ ▓██    ▓██░ ▒████  ░ \n" +
-                "░██░ ▒██    ▒██  ░▓█▒   ░ \n" +
-                "░██░ ▒██▒   ░██▒ ░▒█░    \n" +
-                "░▓  ░ ▒░   ░  ░  ▒ ░    \n" +
-                " ▒  ░░  ░      ░  ░      \n" +
-                " ▒  ░░      ░     ░ ░    \n" +
-                " ░         ░           \n");
+                "██▓  ███▄ ▄███▓  ██████▒\n" +
+                "██▒  ██▒▀█▀ ██▒  ██░     \n" +
+                "██▒  ██░    ██░  ████░   \n" +
+                "██░  ██░    ██░  ██▒    \n" +
+                "██░  ██▒    ██▒  ██░    \n");
 
         System.out.println("The agency Improbable Mission Force wants to know your name.");
-        System.out.print("\u001B[32m I never tell my real name, but you can call me... ");
+        System.out.print("\u001B[32mI never tell my real name, but you can call me... ");
         Agent p = new Agent(s.nextLine());
 
         clearScreen();
