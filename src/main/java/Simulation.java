@@ -29,20 +29,33 @@ public class Simulation<T> {
 
         Scanner sc = new Scanner(System.in);
         LinkedQueue<String> path = new LinkedQueue<>();
-        Iterator<String> neighbors;
+        Iterator<String> neighbors, neighbors2;
         Iterator<String> entry = mission.getEntryExit().iterator();
+        Iterator<String> entry2 = mission.getEntryExit().iterator();
         String currentNeighbor;
+        int number = 1;
         boolean hasTarget = false;
 
-        System.out.println("New manual simulationl\n");
+        System.out.println("New manual simulation\n");
         System.out.println("Entries:");
 
         while (entry.hasNext()){
-            System.out.println(entry.next());
+            System.out.println(number++ + "- " + entry.next());
         }
 
         System.out.println("\nInsert the inicial position: ");
         String position = sc.nextLine();
+
+        //Gets the respective zone for the chosen option
+        number = 1;
+        while (entry2.hasNext()){
+            if (Integer.parseInt(position) == number){
+                position = entry2.next();
+                break;
+            }
+            entry2.next();
+            number++;
+        }
 
         do {
             //Clears the screen
@@ -51,6 +64,7 @@ public class Simulation<T> {
             this.agent.setZone(position);
             path.enqueue(position);
             neighbors = mission.getGraph().getNeighbor(position);
+            neighbors2 = mission.getGraph().getNeighbor(position);
 
             if(mission.getTarget().getZone().equals(this.agent.getZone())){
                 hasTarget = true;
@@ -62,10 +76,10 @@ public class Simulation<T> {
             }
 
             System.out.println("\nOptions: ");
+            number = 1;
             while (neighbors.hasNext()){
-
                 currentNeighbor = neighbors.next();
-                System.out.println(currentNeighbor);
+                System.out.println(number++ + "- " + currentNeighbor);
             }
             System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
 
@@ -75,6 +89,17 @@ public class Simulation<T> {
             System.out.println("\nInsert the next room: ");
 
             position = sc.nextLine();
+            //Gets the respective zone for the chosen option
+            number = 1;
+            while (neighbors2.hasNext()){
+                if (Integer.parseInt(position) == number){
+                    position = neighbors2.next();
+                    break;
+                }
+                neighbors2.next();
+                number++;
+            }
+
 
         } while(this.agent.getHealth() > 0);
 
