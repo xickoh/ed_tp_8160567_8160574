@@ -36,7 +36,7 @@ public class Simulation<T> {
         int number = 1;
         boolean hasTarget = false;
 
-        System.out.println("New manual simulationl\n");
+        System.out.println("New manual simulation\n");
         System.out.println("Entries:");
 
         while (entry.hasNext()){
