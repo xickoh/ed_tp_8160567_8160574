@@ -97,7 +97,7 @@ public class Main {
                         while (missions.hasNext()){
                             listMissions.addToRear((String) missions.next());
                         }
-
+                        System.out.println("Choose the mission you want to analyze: ");
                         for(int i = 0; i < listMissions.size(); i++){
                             System.out.println((i + 1) + " - " + listMissions.index(i));
                         }
