@@ -22,6 +22,15 @@ public class Main {
         System.out.flush();
     }
 
+    public static void printAutomaticSimulation(Iterator i){
+        if (i.hasNext()) {
+            System.out.println(i.next() );
+            while (i.hasNext()) {
+                System.out.println("     |\n     v\n" + i.next());
+            }
+        }
+    }
+
     public static void  playMusic(String filepath) {
         try {
             File musicPath = new File(filepath);
@@ -59,7 +68,7 @@ public class Main {
             System.out.println("│_______________________________________│▒");
             System.out.println("│ 5- Exit                               │▒");
             System.out.println("|_______________________________________|▒");
-            System.out.println(" ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n\n");
+            System.out.println("   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n\n");
 
             System.out.print("Your option: ");
             option = s.nextLine();
@@ -72,10 +81,8 @@ public class Main {
                         Simulation simulation = new Simulation(path, p);
 
                         Iterator i = simulation.getAutomaticSimulation();
-                        while (i.hasNext()) {
-                            System.out.print(i.next() + " -> ");
-                        }
 
+                        printAutomaticSimulation(i);
                     }
                     break;
                     case 2: {
@@ -195,7 +202,7 @@ public class Main {
 
         clearScreen();
 
-        System.out.println("█░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░█");
+        System.out.println("█░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░█");
         System.out.println("\n" +
                 "▀█▀ █▀▄▀█  █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀█ █▀▀▄ █░░ █▀▀ 　 ▒█▀▄▀█ ░▀░ █▀▀ █▀▀ ░▀░ █▀▀█ █▀▀▄ \n" +
                 "▒█░ █░▀░█ █░░█ █▄▄▀ █░░█ █▀▀▄ █▄▄█ █▀▀▄ █░░ █▀▀ 　 ▒█▒█▒█ ▀█▀ ▀▀█ ▀▀█ ▀█▀ █░░█ █░░█ \n" +
@@ -204,7 +211,7 @@ public class Main {
                 "▒█▀▀▀ █▀▀█ █▀▀█ █▀▀ █▀▀ \n" +
                 "▒█▀▀▀ █░░█ █▄▄▀ █░░ █▀▀ \n" +
                 "▒█░░░ ▀▀▀▀ ▀░▀▀ ▀▀▀ ▀▀▀ \n");
-
+        System.out.println("█░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░▰░█");
         System.out.println("Welcome aboard \u001B[36m" + p.getName() + "\u001B[32m");
 
         printMenu(p);
