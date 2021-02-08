@@ -1,7 +1,6 @@
 import Exceptions.EmptyCollectionException;
 import Exceptions.NotComparableException;
-import Structs.ArrayList;
-import Structs.ArrayUnorderedList;
+import Structs.*;
 import org.json.simple.parser.ParseException;
 
 
