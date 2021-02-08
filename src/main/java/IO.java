@@ -166,6 +166,9 @@ public class IO<T> {
                 }
 
                 listResults.addElement((new MissionResult(health, path, version, missionCode, date)), (int)health);;
+            }
+
+            while(!listResults.isEmpty()){
                 list.addToRear(listResults.removeNext());
             }
 
