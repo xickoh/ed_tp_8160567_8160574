@@ -83,6 +83,8 @@ public class Main {
                         Iterator i = simulation.getAutomaticSimulation();
 
                         printAutomaticSimulation(i);
+
+                        backToMenu();
                     }
                     break;
                     case 2: {

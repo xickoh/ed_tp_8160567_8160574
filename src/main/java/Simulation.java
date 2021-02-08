@@ -33,6 +33,7 @@ public class Simulation<T> {
         Iterator<String> entry = mission.getEntryExit().iterator();
         Iterator<String> entry2 = mission.getEntryExit().iterator();
         String currentNeighbor;
+        this.agent.setHealth(100);
         int number = 1;
         boolean hasTarget = false;
 
@@ -43,8 +44,13 @@ public class Simulation<T> {
             System.out.println(number++ + "- " + entry.next());
         }
 
-        System.out.println("\nInsert the inicial position: ");
+        System.out.println("\nInsert the initial position: ");
         String position = sc.nextLine();
+
+        while (Integer.parseInt(position) <1 || Integer.parseInt(position) > number-1){
+            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
+            position = sc.nextLine();
+        }
 
         //Gets the respective zone for the chosen option
         number = 1;
@@ -87,8 +93,13 @@ public class Simulation<T> {
                 System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
             }
             System.out.println("\nInsert the next room: ");
-
             position = sc.nextLine();
+
+            while (Integer.parseInt(position) <1 || Integer.parseInt(position) > number-1){
+                System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
+                position = sc.nextLine();
+            }
+
             //Gets the respective zone for the chosen option
             number = 1;
             while (neighbors2.hasNext()){
