@@ -134,11 +134,12 @@ public class IO<T> {
             fileWriter.flush();
     }
 
-    public static Iterator missionResults() throws IOException, ParseException{
+    public static Iterator missionResults() throws IOException, ParseException, EmptyCollectionException{
 
         JSONParser parser = new JSONParser();
         File file = new File("data/missionResults.json");
-        LinkedHeap<MissionResult> listResults = new LinkedHeap<>();
+        PriorityQueue<MissionResult> listResults = new PriorityQueue<MissionResult>();
+        ArrayUnorderedList<MissionResult> list = new ArrayUnorderedList<>();
 
         if (file.length() != 0) {
 
@@ -164,11 +165,14 @@ public class IO<T> {
                     path.addToRear(zone);
                 }
 
-                listResults.addElement(new MissionResult(health, path, version, missionCode, date));
-
+                listResults.addElement((new MissionResult(health, path, version, missionCode, date)), (int)health);;
             }
 
-            return listResults.iteratorLevelOrder();
+            while(!listResults.isEmpty()){
+                list.addToRear(listResults.removeNext());
+            }
+
+            return list.iterator();
         }
 
         return null;

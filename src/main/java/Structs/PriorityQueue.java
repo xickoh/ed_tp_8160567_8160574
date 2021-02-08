@@ -28,7 +28,7 @@ public class PriorityQueue<T> extends ArrayHeap<PriorityQueueNode<T>> {
         try {
 
             PriorityQueueNode<T> temp = super.removeMin();
-            return (T) temp;
+            return temp.getElement();
 
         }catch(Exception ex){
 
