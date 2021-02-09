@@ -127,12 +127,12 @@ public class IO<T> {
     }
 
     /**
-     * Expor
+     * Exports the results of the mission to the JSON file missionCorrupted.json
      *
-     * @param path
-     * @param health
-     * @param missionCode
-     * @param version
+     * @param path Path followed by the agent
+     * @param health Health of the agent
+     * @param missionCode Code of the mission
+     * @param version Version of the mission
      * @throws IOException
      * @throws ParseException
      * @throws EmptyCollectionException
@@ -177,6 +177,14 @@ public class IO<T> {
         fileWriter.flush();
     }
 
+    /**
+     * This method is used to load the results into the program
+     *
+     * @return Returns a instance of iterator
+     * @throws IOException
+     * @throws ParseException
+     * @throws EmptyCollectionException
+     */
     public static Iterator missionResults() throws IOException, ParseException, EmptyCollectionException{
 
         JSONParser parser = new JSONParser();
@@ -221,6 +229,14 @@ public class IO<T> {
         return null;
     }
 
+    /**
+     * This method is used to load the mission information 
+     *
+     * @return Returns a instance of iterator
+     * @throws IOException
+     * @throws ParseException
+     * @throws EmptyCollectionException
+     */
     public static Iterator readMission() throws IOException, ParseException, EmptyCollectionException{
 
         JSONParser parser = new JSONParser();
