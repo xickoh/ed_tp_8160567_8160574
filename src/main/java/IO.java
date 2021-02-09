@@ -37,14 +37,6 @@ public class IO<T> {
             String missionCode = (String) map.get("cod-missao");
             int version = ((Long) map.get("versao")).intValue();
 
-            //Target info
-            Target target = null;
-            JSONObject jsonTarget = (JSONObject) map.get("alvo");
-            String tZone = (String) jsonTarget.get("divisao");
-            String tType = (String) jsonTarget.get("tipo");
-            if (tZone != null && tType != null){
-                target = new Target(tType, tZone);
-            }
 
             //Zones
             JSONArray jsonZones = (JSONArray) map.get("edificio");
@@ -53,6 +45,18 @@ public class IO<T> {
                 for (int i = 0; i < jsonZones.size(); i++) {
                     String zone = (String) jsonZones.get(i);
                     ng.addVertex(zone);
+                }
+            }
+
+            //Target info
+            Target target = null;
+            JSONObject jsonTarget = (JSONObject) map.get("alvo");
+
+            if( jsonTarget != null) {
+                String tZone = (String) jsonTarget.get("divisao");
+                String tType = (String) jsonTarget.get("tipo");
+                if (tZone != null && tType != null && ng.getIndex(tZone) != -1) {
+                    target = new Target(tType, tZone);
                 }
             }
 
@@ -122,6 +126,17 @@ public class IO<T> {
         return null;
     }
 
+    /**
+     * Expor
+     *
+     * @param path
+     * @param health
+     * @param missionCode
+     * @param version
+     * @throws IOException
+     * @throws ParseException
+     * @throws EmptyCollectionException
+     */
     public static void exportMission(LinkedQueue path, double health, String missionCode, int version)
             throws IOException, ParseException, EmptyCollectionException {
 

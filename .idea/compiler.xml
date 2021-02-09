@@ -3,7 +3,4 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="13" />
   </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_STRING" value="--scan" />
-  </component>
 </project>
