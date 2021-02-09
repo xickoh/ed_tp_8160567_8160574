@@ -16,6 +16,9 @@ import java.util.Scanner;
 
 public class Main {
 
+    /**
+     * Clears the screen adding empty lines
+     */
     public static void clearScreen() {
         for (int i = 0; i < 50; ++i) System.out.println();
         System.out.flush();
@@ -30,6 +33,10 @@ public class Main {
         }
     }
 
+    /**
+     * Plays the theme music
+     * @param filepath path to the music file
+     */
     public static void  playMusic(String filepath) {
         try {
             File musicPath = new File(filepath);
@@ -51,6 +58,10 @@ public class Main {
         }
     }
 
+    /**
+     * Prints the options menu to the console
+     * @param p The agent that will perform the simulations
+     */
     public static void printMenu(Agent p){
         Scanner s = new Scanner(System.in);
         String option = "0";
@@ -163,7 +174,10 @@ public class Main {
         }
     }
 
-
+    /**
+     * Displays which maps are avaiable to play the simulations
+     * @return the name of the map file
+     */
     public static String chooseMap() {
 
         System.out.println("Roger that. Choose a mission to deploy");
@@ -187,6 +201,9 @@ public class Main {
         return listOfFiles[option - 1].getName();
     }
 
+    /**
+     * Waits for the user input to return to the menu
+     */
     public static void backToMenu(){
 
         Scanner sc = new Scanner(System.in);

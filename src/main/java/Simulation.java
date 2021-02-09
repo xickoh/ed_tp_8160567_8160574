@@ -17,6 +17,13 @@ public class Simulation<T> {
     private Mission mission;
     private Agent agent;
 
+    /**
+     * Instantiates a new simulation with an agent and the mission map
+     * @param pathJson path to the json file
+     * @param agent the agent that will perform theh simulations
+     * @throws IOException
+     * @throws ParseException
+     */
     public Simulation(String pathJson, Agent agent) throws IOException, ParseException {
 
         this.mission = IO.importMission(pathJson);
@@ -24,10 +31,22 @@ public class Simulation<T> {
 
     }
 
+    /**
+     * Checks if the mission is valid
+     * @return true if valid, or false if invalid
+     */
     public boolean missionValid(){
         return this.mission != null;
     }
 
+    /**
+     * Performs a manual simulation through the chosen map
+     *
+     * @throws NotComparableException
+     * @throws ParseException
+     * @throws IOException
+     * @throws EmptyCollectionException
+     */
     public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
 
         Scanner sc = new Scanner(System.in);
@@ -127,6 +146,10 @@ public class Simulation<T> {
 
     }
 
+    /**
+     * Decrements health points if the agent has been hit
+     * @return false if the agent is still alive, or true otherwise
+     */
     public boolean isAgentDown(){
         Iterator<Enemy> enemies = mission.getEnemies().iterator();
         Enemy currentEnemy;
@@ -151,6 +174,11 @@ public class Simulation<T> {
         return false;
     }
 
+    /**
+     * Checks if the agent has the target and is on an exit floor
+     * @param hasTarget
+     * @return true if the agent is ready to leave, false if not in an exit floor/ doesn't have the target
+     */
     public boolean isReadyToLeave(boolean hasTarget){
         if (!hasTarget){
             return false;
@@ -167,6 +195,11 @@ public class Simulation<T> {
         return false;
     }
 
+    /**
+     * Simulates the path with the lowest weight
+     * @return an iterator with the path
+     * @throws EmptyCollectionException
+     */
     public Iterator getAutomaticSimulation() throws EmptyCollectionException {
         Iterator entries = mission.getEntryExit().iterator();
         Iterator bestPath = null;
@@ -199,6 +232,10 @@ public class Simulation<T> {
         return resultPath.iterator();
     }
 
+    /**
+     * Gets the locations and their connections
+     * @return a string with the vertices and their edges
+     */
     public String getMap(){
 
         Iterator<String> neighbors;
