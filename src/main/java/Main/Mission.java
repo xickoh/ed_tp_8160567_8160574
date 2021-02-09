@@ -1,3 +1,5 @@
+package Main;
+
 import Structs.ArrayUnorderedList;
 import Structs.NetworkGraph;
 

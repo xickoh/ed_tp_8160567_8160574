@@ -1,3 +1,5 @@
+package Main;
+
 public class Agent {
 
     private String name, zone;

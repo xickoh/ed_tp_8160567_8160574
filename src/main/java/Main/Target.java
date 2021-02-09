@@ -1,3 +1,5 @@
+package Main;
+
 public class Target {
 
     private String zone;
