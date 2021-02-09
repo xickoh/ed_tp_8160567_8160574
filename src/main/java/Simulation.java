@@ -1,4 +1,3 @@
-
 import Exceptions.NotComparableException;
 
 
@@ -23,6 +22,10 @@ public class Simulation<T> {
         this.mission = IO.importMission(pathJson);
         this.agent = agent;
 
+    }
+
+    public boolean missionValid(){
+        return this.mission != null;
     }
 
     public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {

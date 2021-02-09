@@ -25,61 +25,78 @@ public class IO<T> {
      */
     public static Mission importMission(String path) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
-            File file = new File("data/maps/" + path);
+        File file = new File("data/maps/" + path);
 
-            if (file.length() != 0) {
+        if (file.length() != 0) {
+            NetworkGraph ng = new NetworkGraph();
 
-                NetworkGraph ng = new NetworkGraph();
+            Object obj = parser.parse(new FileReader(file));
+            JSONObject map = (JSONObject) obj;
 
-                Object obj = parser.parse(new FileReader(file));
-                JSONObject map = (JSONObject) obj;
+            //Mission info
+            String missionCode = (String) map.get("cod-missao");
+            int version = ((Long) map.get("versao")).intValue();
 
-                //Mission info
-                String missionCode = (String) map.get("cod-missao");
-                int version = ((Long) map.get("versao")).intValue();
+            //Target info
+            Target target = null;
+            JSONObject jsonTarget = (JSONObject) map.get("alvo");
+            String tZone = (String) jsonTarget.get("divisao");
+            String tType = (String) jsonTarget.get("tipo");
+            if (tZone != null && tType != null){
+                target = new Target(tType, tZone);
+            }
 
-                //Target info
-                JSONObject jsonTarget = (JSONObject) map.get("alvo");
-                String tZone = (String) jsonTarget.get("divisao");
-                String tType = (String) jsonTarget.get("tipo");
-                Target target = new Target(tType, tZone);
+            //Zones
+            JSONArray jsonZones = (JSONArray) map.get("edificio");
 
-                //Zones
-                JSONArray jsonZones = (JSONArray) map.get("edificio");
-
-                for (int i = 0; i<jsonZones.size(); i++){
+            if(jsonZones!=null) {
+                for (int i = 0; i < jsonZones.size(); i++) {
                     String zone = (String) jsonZones.get(i);
                     ng.addVertex(zone);
                 }
+            }
 
-                //Entries and exits
-                JSONArray jsonEntryExit = (JSONArray) map.get("entradas-saidas");
-                ArrayUnorderedList<String> entryExit = new ArrayUnorderedList<>();
+            //Entries and exits
+            JSONArray jsonEntryExit = (JSONArray) map.get("entradas-saidas");
+            ArrayUnorderedList<String> entryExit = new ArrayUnorderedList<>();
 
-                for (int i = 0; i<jsonEntryExit.size(); i++){
-                    entryExit.addToRear((String) jsonEntryExit.get(i));
+            if (jsonEntryExit!=null) {
+                for (int i = 0; i < jsonEntryExit.size(); i++) {
+                    String entry = (String) jsonEntryExit.get(i);
+                    if (ng.getIndex(entry) != -1) {
+                        entryExit.addToRear((String) jsonEntryExit.get(i));
+                    }
                 }
+            }
 
-                //Edges
-                JSONArray jsonEdgesArray = (JSONArray) map.get("ligacoes");
+            //Edges
+            JSONArray jsonEdgesArray = (JSONArray) map.get("ligacoes");
 
-                for (Object o : jsonEdgesArray){
-                    JSONArray edgesArray = (JSONArray) o;
+            for (Object o : jsonEdgesArray){
+                JSONArray edgesArray = (JSONArray) o;
+                int index1 = ng.getIndex(edgesArray.get(0));
+                int index2 = ng.getIndex(edgesArray.get(1));
+                if (index1 != -1 && index2 != -1) {
                     ng.addEdge(edgesArray.get(0), edgesArray.get(1));
                 }
+            }
 
-                //Enemies
-                JSONArray jsonEnemies = (JSONArray) map.get("inimigos");
-                ArrayUnorderedList<Enemy> enemies = new ArrayUnorderedList<>();
+            //Enemies
+            JSONArray jsonEnemies = (JSONArray) map.get("inimigos");
+            ArrayUnorderedList<Enemy> enemies = new ArrayUnorderedList<>();
 
-                for (int i = 0; i<jsonEnemies.size(); i++){
-                    JSONObject e = (JSONObject) jsonEnemies.get(i);
-                    String eName = (String) e.get("nome");
-                    Double ePower = ((Number) e.get("poder")).doubleValue();
-                    String eZone = (String) e.get("divisao");
-                    enemies.addToRear(new Enemy(eName, ePower, eZone));
-                    for (int j = 0; j<ng.size(); j++) {
-                        if (ng.getVertices()[j].equals(eZone)){
+            for (Object enemyObj : jsonEnemies){
+                JSONObject e = (JSONObject) enemyObj;
+                String eName = (String) e.get("nome");
+                Double ePower = ((Number) e.get("poder")).doubleValue();
+                String eZone = (String) e.get("divisao");
+                enemies.addToRear(new Enemy(eName, ePower, eZone));
+
+                //Checks if vertix exists
+                if (ng.getIndex(eZone) != -1) {
+                    //If it does, adds as an edge
+                    for (int j = 0; j < ng.size(); j++) {
+                        if (ng.getVertices()[j].equals(eZone)) {
                             ng.addEdge(ng.getVertices()[j], eZone, ePower);
                         }
                         if (ng.getAdjMatrix()[j][ng.getIndex(eZone)]) {
@@ -87,9 +104,20 @@ public class IO<T> {
                         }
                     }
                 }
-
-                return new Mission(ng, entryExit, target, enemies, missionCode, version);
             }
+
+            Iterator entries = entryExit.iterator();
+            int countEntries = 0;
+            while (entries.hasNext()){
+                countEntries++;
+                entries.next();
+            }
+
+            if (missionCode == null || target == null || ng.size() == 0 || countEntries == 0){
+                return null;
+            }
+            return new Mission(ng, entryExit, target, enemies, missionCode, version);
+        }
 
         return null;
     }
@@ -129,9 +157,9 @@ public class IO<T> {
         JSONObject results = new JSONObject();
         results.put("results", resultsArray);
 
-            FileWriter fileWriter = new FileWriter("data/missionResults.json");
-            fileWriter.write(results.toJSONString());
-            fileWriter.flush();
+        FileWriter fileWriter = new FileWriter("data/missionResults.json");
+        fileWriter.write(results.toJSONString());
+        fileWriter.flush();
     }
 
     public static Iterator missionResults() throws IOException, ParseException, EmptyCollectionException{

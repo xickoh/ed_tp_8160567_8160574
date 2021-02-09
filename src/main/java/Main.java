@@ -79,10 +79,14 @@ public class Main {
                         String path = chooseMap();
                         Simulation simulation = new Simulation(path, p);
 
-                        Iterator i = simulation.getAutomaticSimulation();
+                        if (simulation.missionValid()) {
 
-                        printAutomaticSimulation(i);
+                            Iterator i = simulation.getAutomaticSimulation();
 
+                            printAutomaticSimulation(i);
+                        } else {
+                            System.out.println("\u001B[32mThis mission is corrupted. I refuse to set foot in that building\u001B[0m");
+                        }
                         backToMenu();
                     }
                     break;
@@ -90,8 +94,13 @@ public class Main {
                         String path = chooseMap();
                         Simulation simulation = new Simulation(path, p);
 
-                        playMusic("MissionImpossible.wav");
-                        simulation.getManualSimulation();
+                        if (simulation.missionValid()) {
+                            playMusic("MissionImpossible.wav");
+                            simulation.getManualSimulation();
+                        }
+                        else {
+                            System.out.println("\u001B[32mThis mission is corrupted. I refuse to set foot in that building\u001B[0m");
+                        }
 
                         backToMenu();
                         break;
