@@ -21,5 +21,5 @@ public class Target {
     public String getType() {
         return type;
     }
-    
+
 }

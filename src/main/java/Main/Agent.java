@@ -2,8 +2,9 @@ package Main;
 
 public class Agent {
 
-    private String name, zone;
+    private String name;
     private double health;
+    private Room currentLocation;
 
     /**
      * Class that defines the agent that will perform the mission
@@ -14,6 +15,7 @@ public class Agent {
     public Agent(String name) {
         this.name = name;
         this.health = 100;
+        this.currentLocation = null;
     }
 
     /**
@@ -25,19 +27,19 @@ public class Agent {
     }
 
     /**
-     * Get the zone where the agent is located
+     * Get the room where the agent is located
      * @return zone
      */
-    public String getZone() {
-        return zone;
+    public Room getCurrentLocation() {
+        return currentLocation;
     }
 
     /**
-     * Updates the zone where the player is at
-     * @param zone zone where the player has moved into
+     * Updates the room where the player is at
+     * @param currentLocation room where the player has moved into
      */
-    public void setZone(String zone) {
-        this.zone = zone;
+    public void setCurrentLocation(Room currentLocation) {
+        this.currentLocation = currentLocation;
     }
 
     public double getHealth() {

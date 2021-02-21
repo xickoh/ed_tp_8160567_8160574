@@ -27,7 +27,7 @@ public class IO<T> {
         File file = new File("data/maps/" + path);
 
         if (file.length() != 0) {
-            NetworkGraph ng = new NetworkGraph();
+            Graph<Room> ng = new Graph();
 
             Object obj = parser.parse(new FileReader(file));
             JSONObject map = (JSONObject) obj;
@@ -42,8 +42,8 @@ public class IO<T> {
 
             if(jsonZones!=null) {
                 for (int i = 0; i < jsonZones.size(); i++) {
-                    String zone = (String) jsonZones.get(i);
-                    ng.addVertex(zone);
+                    Room newRoom = new Room((String) jsonZones.get(i));
+                    ng.addVertex(newRoom);
                 }
             }
 
@@ -52,35 +52,35 @@ public class IO<T> {
             JSONObject jsonTarget = (JSONObject) map.get("alvo");
 
             if( jsonTarget != null) {
-                String tZone = (String) jsonTarget.get("divisao");
-                String tType = (String) jsonTarget.get("tipo");
-                if (tZone != null && tType != null && ng.getIndex(tZone) != -1) {
-                    target = new Target(tType, tZone);
+                Room searchRoom = new Room((String) jsonTarget.get("divisao"));
+                target = new Target((String) jsonTarget.get("tipo"));
+                if (target.getType() != null && ng.getIndex(searchRoom) != -1) {
+                    ng.getVertex(searchRoom).setTarget(target);
                 }
             }
 
             //Entries
             JSONArray jsonEntry = (JSONArray) map.get("entradas");
-            ArrayUnorderedList<String> entries = new ArrayUnorderedList<>();
+            LinkedList<Room> entries = new LinkedList<>();
 
             if (jsonEntry!=null) {
                 for (int i = 0; i < jsonEntry.size(); i++) {
-                    String entry = (String) jsonEntry.get(i);
+                    Room entry = new Room((String) jsonEntry.get(i));
                     if (ng.getIndex(entry) != -1) {
-                        entries.addToRear((String) jsonEntry.get(i));
+                        entries.add(ng.getVertex(entry));
                     }
                 }
             }
 
             //Exits
             JSONArray jsonExits = (JSONArray) map.get("saidas");
-            ArrayUnorderedList<String> exits = new ArrayUnorderedList<>();
+            LinkedList<String> exits = new LinkedList<>();
 
             if (jsonExits!=null) {
                 for (int i = 0; i < jsonExits.size(); i++) {
-                    String exit = (String) jsonExits.get(i);
+                    Room exit = new Room((String) jsonExits.get(i));
                     if (ng.getIndex(exit) != -1) {
-                        exits.addToRear((String) jsonExits.get(i));
+                        exits.add((String) jsonExits.get(i));
                     }
                 }
             }
@@ -90,49 +90,33 @@ public class IO<T> {
 
             for (Object o : jsonEdgesArray){
                 JSONArray edgesArray = (JSONArray) o;
-                int index1 = ng.getIndex(edgesArray.get(0));
-                int index2 = ng.getIndex(edgesArray.get(1));
+                int index1 = ng.getIndex(new Room((String)edgesArray.get(0)));
+                int index2 = ng.getIndex(new Room((String)edgesArray.get(1)));
                 if (index1 != -1 && index2 != -1) {
-                    ng.addEdge(edgesArray.get(0), edgesArray.get(1));
+                    ng.addEdge(ng.getVertex(index1), ng.getVertex(index2));
                 }
             }
 
             //Enemies
             JSONArray jsonEnemies = (JSONArray) map.get("inimigos");
-            ArrayUnorderedList<Enemy> enemies = new ArrayUnorderedList<>();
 
             for (Object enemyObj : jsonEnemies){
                 JSONObject e = (JSONObject) enemyObj;
                 String eName = (String) e.get("nome");
                 Double ePower = ((Number) e.get("poder")).doubleValue();
-                String eZone = (String) e.get("divisao");
-                enemies.addToRear(new Enemy(eName, ePower, eZone));
+                Room room = new Room((String) e.get("divisao"));
 
                 //Checks if vertix exists
-                if (ng.getIndex(eZone) != -1) {
-                    //If it does, adds as an edge
-                    for (int j = 0; j < ng.size(); j++) {
-                        if (ng.getVertices()[j].equals(eZone)) {
-                            ng.addEdge(ng.getVertices()[j], eZone, ePower);
-                        }
-                        if (ng.getAdjMatrix()[j][ng.getIndex(eZone)]) {
-                            ng.addEdge(ng.getVertices()[j], eZone, ePower);
-                        }
-                    }
+                if (ng.getIndex(room) != -1) {
+
+                    ng.getVertex(room).getEnemies().add(new Enemy(eName, ePower));
                 }
             }
 
-            Iterator entriesItr = entries.iterator();
-            int countEntries = 0;
-            while (entriesItr.hasNext()){
-                countEntries++;
-                entriesItr.next();
-            }
-
-            if (missionCode == null || target == null || ng.size() == 0 || countEntries == 0){
+            if (missionCode == null || target == null || ng.size() == 0 || entries.isEmpty() || exits.isEmpty()){
                 return null;
             }
-            return new Mission(ng,entries, exits, target, enemies, missionCode, version);
+            return new Mission(ng ,entries, exits, missionCode, version);
         }
 
         return null;

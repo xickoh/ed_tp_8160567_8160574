@@ -1,8 +1,11 @@
 package Structs;
 
+import Exceptions.ElementNotFoundException;
 import Exceptions.EmptyCollectionException;
 
-public class LinkedList<T> {
+import java.util.Iterator;
+
+public class LinkedList<T> implements Iterable<T> {
 
     private Node<T> front;
     private int count;
@@ -47,6 +50,51 @@ public class LinkedList<T> {
             return true;
 
         return false;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new myItr();
+    }
+
+    private class myItr implements Iterator{
+
+        private Node<T> current;
+
+        public myItr() {
+
+        }
+
+        @Override
+        public boolean hasNext() {
+
+            return current != null;
+        }
+
+        @Override
+        public Object next() {
+            if(!hasNext())
+                throw new ArrayIndexOutOfBoundsException("The isn't next element !");
+
+            T element = current.getObject();
+
+            current = current.getNext();
+
+            return element;
+        }
+
+        @Override
+        public void remove() {
+
+            try {
+
+                LinkedList.this.remove();
+
+            } catch (EmptyCollectionException ex) {
+
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 
     @Override

@@ -4,19 +4,16 @@ public class Enemy {
 
     private String name;
     private Double power;
-    private String zone;
 
     /**
      * Contructor of Enemy
      *
      * @param name represents the name of the enemy
      * @param power represents the power of the enemy
-     * @param zone represents the zone of the enemy
      */
-    public Enemy(String name, Double power, String zone) {
+    public Enemy(String name, Double power) {
         this.name = name;
         this.power = power;
-        this.zone = zone;
     }
 
     /**
@@ -37,12 +34,4 @@ public class Enemy {
         return power;
     }
 
-    /**
-     * Return the zone of the enemy
-     *
-     * @return zone
-     */
-    public String getZone() {
-        return zone;
-    }
 }

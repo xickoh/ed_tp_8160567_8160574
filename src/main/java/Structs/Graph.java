@@ -1,6 +1,7 @@
 package Structs;
 
 import Exceptions.EmptyCollectionException;
+import Main.Room;
 
 import java.util.Iterator;
 
@@ -317,6 +318,17 @@ public class Graph<T> implements GraphADT<T> {
             }
         }
         return -1;
+    }
+
+
+    public T getVertex(T vertex){
+
+        return this.vertices[getIndex(vertex)];
+    }
+
+    public T getVertex(int indexVertex){
+
+        return this.vertices[indexVertex];
     }
 
     public String toString(Iterator itr) {

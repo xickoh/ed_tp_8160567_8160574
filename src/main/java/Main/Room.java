@@ -2,6 +2,8 @@ package Main;
 
 import Structs.LinkedList;
 
+import java.util.Objects;
+
 public class Room {
 
     private LinkedList<Enemy> enemies;
@@ -32,6 +34,14 @@ public class Room {
 
     public String getRoom() {
         return room;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room1 = (Room) o;
+        return Objects.equals(room, room1.room);
     }
 
 }
