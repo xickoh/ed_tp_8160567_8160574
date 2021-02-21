@@ -74,13 +74,13 @@ public class IO<T> {
 
             //Exits
             JSONArray jsonExits = (JSONArray) map.get("saidas");
-            LinkedList<String> exits = new LinkedList<>();
+            LinkedList<Room> exits = new LinkedList<>();
 
             if (jsonExits!=null) {
                 for (int i = 0; i < jsonExits.size(); i++) {
                     Room exit = new Room((String) jsonExits.get(i));
                     if (ng.getIndex(exit) != -1) {
-                        exits.add((String) jsonExits.get(i));
+                        exits.add(ng.getVertex(exit));
                     }
                 }
             }

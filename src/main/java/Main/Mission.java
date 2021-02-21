@@ -4,11 +4,11 @@ import Structs.ArrayUnorderedList;
 import Structs.LinkedList;
 import Structs.Graph;
 
-public class Mission<T> {
+public class Mission {
 
-    private Graph<T> map;
-    private LinkedList<T> entry;
-    private LinkedList<T> exit;
+    private Graph<Room> map;
+    private LinkedList<Room> entry;
+    private LinkedList<Room> exit;
     private String missionCode;
     private int version;
 
@@ -21,9 +21,9 @@ public class Mission<T> {
      * @param missionCode represents the code of the mission
      * @param version represents the version
      */
-    public Mission(Graph<T> map,
-                   LinkedList<T> entries,
-                   LinkedList<T> exits,
+    public Mission(Graph<Room> map,
+                   LinkedList<Room> entries,
+                   LinkedList<Room> exits,
                    String missionCode,
                    int version) {
 
@@ -35,15 +35,15 @@ public class Mission<T> {
 
     }
 
-    public Graph<T> getMap() {
+    public Graph<Room> getMap() {
         return map;
     }
 
-    public LinkedList<T> getEntry() {
+    public LinkedList<Room> getEntry() {
         return entry;
     }
 
-    public LinkedList<T> getExit() {
+    public LinkedList<Room> getExit() {
         return exit;
     }
 

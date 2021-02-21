@@ -151,7 +151,7 @@ public class Main {
                         String path = chooseMap();
                         Simulation simulation = new Simulation(path, p);
 
-                        System.out.println(simulation.getMap());
+//                        System.out.println(simulation.getMap());
                         backToMenu();
                         break;
                     }

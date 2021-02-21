@@ -12,7 +12,7 @@ public class Room {
 
     public Room(String room) {
         this.room = room;
-        this.enemies = null;
+        this.enemies = new LinkedList<>();
         this.target = null;
     }
 
@@ -42,6 +42,16 @@ public class Room {
         if (o == null || getClass() != o.getClass()) return false;
         Room room1 = (Room) o;
         return Objects.equals(room, room1.room);
+    }
+
+    public double getEnemiesPower(){
+        double power = 0;
+
+        while (enemies.iterator().hasNext()){
+            power+= enemies.iterator().next().getPower();
+        }
+
+        return power;
     }
 
 }
