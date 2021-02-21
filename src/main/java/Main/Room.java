@@ -34,7 +34,4 @@ public class Room {
         return room;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
-    }
 }
