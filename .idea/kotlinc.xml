@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="KotlinCommonCompilerArguments">
-    <option name="errors">
-      <ArgumentParseErrors />
-    </option>
-  </component>
-  <component name="KotlinCompilerSettings">
-    <option name="additionalArguments" value="-version --stacktrace" />
+  <component name="Kotlin2JsCompilerArguments">
+    <option name="sourceMapEmbedSources" />
   </component>
 </project>

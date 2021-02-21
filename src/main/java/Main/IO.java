@@ -59,15 +59,28 @@ public class IO<T> {
                 }
             }
 
-            //Entries and exits
-            JSONArray jsonEntryExit = (JSONArray) map.get("entradas-saidas");
-            ArrayUnorderedList<String> entryExit = new ArrayUnorderedList<>();
+            //Entries
+            JSONArray jsonEntry = (JSONArray) map.get("entradas");
+            ArrayUnorderedList<String> entries = new ArrayUnorderedList<>();
 
-            if (jsonEntryExit!=null) {
-                for (int i = 0; i < jsonEntryExit.size(); i++) {
-                    String entry = (String) jsonEntryExit.get(i);
+            if (jsonEntry!=null) {
+                for (int i = 0; i < jsonEntry.size(); i++) {
+                    String entry = (String) jsonEntry.get(i);
                     if (ng.getIndex(entry) != -1) {
-                        entryExit.addToRear((String) jsonEntryExit.get(i));
+                        entries.addToRear((String) jsonEntry.get(i));
+                    }
+                }
+            }
+
+            //Exits
+            JSONArray jsonExits = (JSONArray) map.get("saidas");
+            ArrayUnorderedList<String> exits = new ArrayUnorderedList<>();
+
+            if (jsonExits!=null) {
+                for (int i = 0; i < jsonExits.size(); i++) {
+                    String exit = (String) jsonEntry.get(i);
+                    if (ng.getIndex(exit) != -1) {
+                        exits.addToRear((String) jsonEntry.get(i));
                     }
                 }
             }
@@ -109,17 +122,17 @@ public class IO<T> {
                 }
             }
 
-            Iterator entries = entryExit.iterator();
+            Iterator entriesItr = entries.iterator();
             int countEntries = 0;
-            while (entries.hasNext()){
+            while (entriesItr.hasNext()){
                 countEntries++;
-                entries.next();
+                entriesItr.next();
             }
 
             if (missionCode == null || target == null || ng.size() == 0 || countEntries == 0){
                 return null;
             }
-            return new Mission(ng, entryExit, target, enemies, missionCode, version);
+            return new Mission(ng,entries, exits, target, enemies, missionCode, version);
         }
 
         return null;
@@ -215,7 +228,7 @@ public class IO<T> {
                     path.addToRear(zone);
                 }
 
-                listResults.addElement((new MissionResult(health, path, version, missionCode, date)), (int)health);;
+                listResults.addElement((new MissionResult(health, path, version, missionCode, date)), (int)health);
             }
 
             while(!listResults.isEmpty()){
