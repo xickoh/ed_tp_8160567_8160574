@@ -54,8 +54,8 @@ public class Simulation<T> {
         Scanner sc = new Scanner(System.in);
         LinkedQueue<String> path = new LinkedQueue<>();
         Iterator<String> neighbors, neighbors2;
-        Iterator<String> entry = mission.getEntryExit().iterator();
-        Iterator<String> entry2 = mission.getEntryExit().iterator();
+        Iterator<String> entry = mission.getEntry().iterator();
+        Iterator<String> exit = mission.getExit().iterator();
         String currentNeighbor;
         this.agent.setHealth(100);
         int number = 1;
@@ -78,12 +78,12 @@ public class Simulation<T> {
 
         //Gets the respective zone for the chosen option
         number = 1;
-        while (entry2.hasNext()){
+        while (exit.hasNext()){
             if (Integer.parseInt(position) == number){
-                position = entry2.next();
+                position = exit.next();
                 break;
             }
-            entry2.next();
+            exit.next();
             number++;
         }
 
@@ -186,7 +186,7 @@ public class Simulation<T> {
             return false;
         }
 
-        Iterator exit = mission.getEntryExit().iterator();
+        Iterator exit = mission.getExit().iterator();
         while(exit.hasNext()) {
             if(exit.next().equals(this.agent.getZone())){
                 return true;
@@ -203,7 +203,7 @@ public class Simulation<T> {
      * @throws EmptyCollectionException
      */
     public Iterator getAutomaticSimulation() throws EmptyCollectionException {
-        Iterator entries = mission.getEntryExit().iterator();
+        Iterator entries = mission.getEntry().iterator();
         Iterator bestPath = null;
         double bestPathWeight = Double.MAX_VALUE;
 
@@ -241,7 +241,7 @@ public class Simulation<T> {
     public String getMap(){
 
         Iterator<String> neighbors;
-        Iterator<String> entry = this.mission.getEntryExit().iterator();
+        Iterator<String> entry = this.mission.getEntry().iterator();
         Iterator<String> graph = this.mission.getGraph().iteratorBFS(entry.next());
 
         String str = "";

@@ -78,9 +78,9 @@ public class IO<T> {
 
             if (jsonExits!=null) {
                 for (int i = 0; i < jsonExits.size(); i++) {
-                    String exit = (String) jsonEntry.get(i);
+                    String exit = (String) jsonExits.get(i);
                     if (ng.getIndex(exit) != -1) {
-                        exits.addToRear((String) jsonEntry.get(i));
+                        exits.addToRear((String) jsonExits.get(i));
                     }
                 }
             }
