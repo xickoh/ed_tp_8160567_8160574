@@ -23,20 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79d4fe26-facc-49fe-acc7-55a8fa5e4cc4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main/IO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/IO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main/Mission.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Mission.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Simulation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Structs/ArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Structs/ArrayList.java" afterDir="false" />
     </list>
@@ -105,7 +92,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1613051928666</updated>
-      <workItem from="1613939631812" duration="7034000" />
+      <workItem from="1613939631812" duration="7541000" />
     </task>
     <servers />
   </component>
@@ -124,22 +111,26 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1493" height="232" key="GridCell.Tab.0.bottom" timestamp="1613947511375">
+    <state width="1493" height="456" key="GridCell.Tab.0.bottom" timestamp="1613948083914">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="232" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613947511375" />
-    <state width="1493" height="232" key="GridCell.Tab.0.center" timestamp="1613947511375">
+    <state width="1493" height="456" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1613948083914" />
+    <state width="1493" height="456" key="GridCell.Tab.0.center" timestamp="1613948083913">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="232" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1613947511375" />
-    <state width="1493" height="232" key="GridCell.Tab.0.left" timestamp="1613947511375">
+    <state width="1493" height="456" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1613948083913" />
+    <state width="1493" height="456" key="GridCell.Tab.0.left" timestamp="1613948083913">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="232" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1613947511375" />
-    <state width="1493" height="232" key="GridCell.Tab.0.right" timestamp="1613947511375">
+    <state width="1493" height="456" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1613948083913" />
+    <state width="1493" height="456" key="GridCell.Tab.0.right" timestamp="1613948083913">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="232" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1613947511375" />
+    <state width="1493" height="456" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1613948083913" />
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1613947805786">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1613947805786" />
   </component>
   <component name="masterDetails">
     <states>

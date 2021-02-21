@@ -259,7 +259,7 @@ public class Simulation<T> {
             double pathCost = 0;
             int pathLength = 0;
             while (path.iterator().hasNext()) {
-                pathCost += path.iterator().next().getEnemiesPower();
+                pathCost += ((Room) path.iterator().next()).getEnemiesPower();
                 pathLength++;
             }
             if (pathCost <= bestPathCost && pathLength < bestPathLength) {
@@ -269,7 +269,7 @@ public class Simulation<T> {
 
         //Populates bestResult with the best path to target
         while (bestPath.iterator().hasNext()) {
-            bestResult.addToRear(bestPath.iterator().next());
+            bestResult.addToRear((Room) bestPath.iterator().next());
         }
 
         bestPathCost = Double.MAX_VALUE;
@@ -279,7 +279,7 @@ public class Simulation<T> {
             double pathCost = 0;
             int pathLength = 0;
             while (path.iterator().hasNext()) {
-                pathCost += path.iterator().next().getEnemiesPower();
+                pathCost += ((Room) path.iterator().next()).getEnemiesPower();
                 pathLength++;
             }
             if (pathCost <= bestPathCost && pathLength < bestPathLength) {
@@ -288,7 +288,7 @@ public class Simulation<T> {
         }
 
         while (bestPath.iterator().hasNext()) {
-            bestResult.addToRear(bestPath.iterator().next());
+            bestResult.addToRear((Room) bestPath.iterator().next());
         }
 
         return bestResult.iterator();

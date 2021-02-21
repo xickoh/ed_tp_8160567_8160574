@@ -121,7 +121,7 @@ public class ArrayList<T> implements ListADT<T>, Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator iterator() {
         return new myItr();
     }
 
