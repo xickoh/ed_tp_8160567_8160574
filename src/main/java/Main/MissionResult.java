@@ -2,12 +2,14 @@ package Main;
 
 import Structs.ArrayUnorderedList;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.Iterator;
 
 public class MissionResult implements Comparable{
 
     private double health;
     private ArrayUnorderedList<String> path;
+    private ArrayUnorderedList<Event> events;
     private int version;
     private String codMission;
     private String date;
@@ -19,8 +21,9 @@ public class MissionResult implements Comparable{
      * @param version represents the verion of mission
      * @param codMission represents the codMission
      */
-    public MissionResult(double health, ArrayUnorderedList<String> path, int version, String codMission, String date) {
+    public MissionResult(double health, ArrayUnorderedList<String> path, ArrayUnorderedList<Event> events,int version, String codMission, String date) {
         this.health = health;
+        this.events = events;
         this.path = path;
         this.version = version;
         this.codMission = codMission;
@@ -43,6 +46,16 @@ public class MissionResult implements Comparable{
      */
     public ArrayUnorderedList<String> getPath() {
         return path;
+    }
+
+
+    /**
+     * Returns the path followed by the agent
+     *
+     * @return path
+     */
+    public ArrayUnorderedList<Event> getEvents() {
+        return events;
     }
 
     /**
@@ -95,7 +108,8 @@ public class MissionResult implements Comparable{
     @Override
     public String toString() {
         String str = "\n";
-        Iterator itr = this.path.iterator();
+        Iterator itrPath = this.path.iterator();
+        Iterator<Event> itrEvent = this.events.iterator();
 
         str +=  "\nMission code: "+ this.codMission
                 +"\nVersion: "+ this.version
@@ -103,11 +117,19 @@ public class MissionResult implements Comparable{
                 +"\nHealth: "+ this.health
                 +"\nPath: ";
 
-        while(itr.hasNext()){
-            str += "\n"+ itr.next();
+        while(itrPath.hasNext()){
+            str += "\n"+ itrPath.next();
 
-            if(itr.hasNext())
+            if(itrPath.hasNext())
                 str +=  "\n     |     "+"\n     V     ";
+        }
+        str += "\033[0;1m\n\nEvent Log: \n\033[0m";
+        while(itrEvent.hasNext()){
+
+            Event thisEvent = itrEvent.next();
+
+            str +="└ " + thisEvent.getDescription() + " in " + thisEvent.getRoom() + "\n";
+
         }
 
         return str;
