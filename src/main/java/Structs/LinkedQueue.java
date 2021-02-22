@@ -2,8 +2,10 @@ package Structs;
 
 import Exceptions.EmptyCollectionException;
 
+import java.util.Iterator;
 
-public class LinkedQueue<T> implements QueueADT<T> {
+
+public class LinkedQueue<T> implements QueueADT<T>, Iterable<T> {
 
     private Node<T> head, tail;
     private int count;
@@ -80,6 +82,38 @@ public class LinkedQueue<T> implements QueueADT<T> {
     public int size() {
 
         return count;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new myItr();
+    }
+
+    private class myItr implements Iterator {
+
+        private Node<T> current;
+
+        public myItr() {
+            current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+
+            return current != null;
+        }
+
+        @Override
+        public Object next() {
+            if (!hasNext())
+                throw new ArrayIndexOutOfBoundsException("There isn't next element !");
+
+            T element = current.getObject();
+
+            current = current.getNext();
+
+            return element;
+        }
     }
 
     @Override

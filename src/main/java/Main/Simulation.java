@@ -46,27 +46,11 @@ public class Simulation {
         return this.mission != null;
     }
 
-    /**
-     * Performs a manual simulation through the chosen map
-     *
-     * @throws NotComparableException
-     * @throws ParseException
-     * @throws IOException
-     * @throws EmptyCollectionException
-     */
-    public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
-
+    public int getEntryRoom(){
         Scanner sc = new Scanner(System.in);
-        LinkedQueue<String> path = new LinkedQueue<>();
-        Iterator<Room> neighbors;
-        Iterator<Room> entry = mission.getEntry().iterator();
-        Iterator<Room> exit = mission.getExit().iterator();
-        Room currentNeighbor;
-        this.agent.setHealth(100);
         int number = 1;
-        boolean hasTarget = false;
+        Iterator<Room> entry = mission.getEntry().iterator();
 
-        System.out.println("New manual simulation\n");
         System.out.println("Entries:");
 
         while (entry.hasNext()){
@@ -89,18 +73,78 @@ public class Simulation {
                 position = mission.getMap().getIndex(entry.next());
                 break;
             }
-            exit.next();
+            entry.next();
             number++;
         }
+        return position;
+    }
+
+    public int getChosenRoom(boolean hasTarget){
+        int number = 1, position;
+        Scanner sc = new Scanner(System.in);
+        Room currentNeighbor;
+        Iterator<Room> neighbors = mission.getMap().getNeighbor(this.agent.getCurrentLocation());
+
+        System.out.println("\nOptions: ");
+        while (neighbors.hasNext()){
+            currentNeighbor = neighbors.next();
+            System.out.println(number++ + "- " + currentNeighbor.getRoom());
+        }
+        System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
+
+        if (hasTarget){
+            System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
+        }
+        System.out.println("\nInsert the next room: ");
+        position = sc.nextInt();
+
+        while (position <1 || position > number-1){
+            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
+            position = sc.nextInt();
+        }
+
+        //Gets the respective zone for the chosen option
+        number = 1;
+        neighbors = this.mission.getMap().getNeighbor(this.mission.getMap().getVertex(this.agent.getCurrentLocation()));
+        while (neighbors.hasNext()){
+            if (position == number){
+                position = mission.getMap().getIndex(neighbors.next());
+                break;
+            }
+            neighbors.next();
+            number++;
+        }
+        return position;
+    }
+
+    /**
+     * Performs a manual simulation through the chosen map
+     *
+     * @throws NotComparableException
+     * @throws ParseException
+     * @throws IOException
+     * @throws EmptyCollectionException
+     */
+    public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
+
+        LinkedQueue<Room> path = new LinkedQueue<>();
+        Iterator<Room> exit = mission.getExit().iterator();
+        this.agent.setHealth(100);
+        boolean hasTarget = false;
+
+        System.out.println("New manual simulation\n");
+
+        int position = getEntryRoom();
 
         do {
             //Clears the screen
             Main.clearScreen();
 
+            //Changes agent current location
             this.agent.setCurrentLocation(mission.getMap().getVertex(position));
-            path.enqueue(mission.getMap().getVertex(position).getRoom());
-            neighbors = mission.getMap().getNeighbor(mission.getMap().getVertex(position));
+            path.enqueue(mission.getMap().getVertex(position));
 
+            //Checks if agent has target
             if(mission.getTargetRoom().equals(this.agent.getCurrentLocation())){
                 hasTarget = true;
                 System.out.println("\u001B[33mTarget acquired. Leaving now.\u001B[0m");
@@ -110,37 +154,8 @@ public class Simulation {
                 break;
             }
 
-            System.out.println("\nOptions: ");
-            number = 1;
-            while (neighbors.hasNext()){
-                currentNeighbor = neighbors.next();
-                System.out.println(number++ + "- " + currentNeighbor.getRoom());
-            }
-            System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
-
-            if (hasTarget){
-                System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
-            }
-            System.out.println("\nInsert the next room: ");
-            position = sc.nextInt();
-
-            while (position <1 || position > number-1){
-                System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
-                position = sc.nextInt();
-            }
-
-            //Gets the respective zone for the chosen option
-            number = 1;
-            neighbors = this.mission.getMap().getNeighbor(this.mission.getMap().getVertex(this.agent.getCurrentLocation()));
-            while (neighbors.hasNext()){
-                if (position == number){
-                    position = mission.getMap().getIndex(neighbors.next());
-                    break;
-                }
-                neighbors.next();
-                number++;
-            }
-
+            //Gets the chosen room to visit next
+            position = getChosenRoom(hasTarget);
 
         } while(this.agent.getHealth() > 0);
 
@@ -327,28 +342,28 @@ public class Simulation {
      * Gets the locations and their connections
      * @return a string with the vertices and their edges
      */
-//    public String getMap(){
-//
-//        Iterator<String> neighbors;
-//        Iterator<String> entry = this.mission.getEntry().iterator();
-//        Iterator<String> graph = this.mission.getGraph().iteratorBFS(entry.next());
-//
-//        String str = "";
-//
-//        while(graph.hasNext()){
-//
-//            String currentVertex = graph.next();
-//
-//            neighbors = this.mission.getGraph().getNeighbor(currentVertex);
-//
-//            str += "\n\nThe room "+ currentVertex +" has this conections: ";
-//
-//            while (neighbors.hasNext()){
-//
-//                str += " "+neighbors.next()+"";
-//            }
-//        }
-//
-//        return str;
-//    }
+    public String getMap(){
+
+        Iterator<Room> neighbors;
+        Iterator<Room> entry = this.mission.getEntry().iterator();
+        Iterator<Room> graph = this.mission.getMap().iteratorBFS(entry.next());
+
+        String str = "";
+
+        while(graph.hasNext()){
+
+            Room currentVertex = graph.next();
+
+            neighbors = this.mission.getMap().getNeighbor(currentVertex);
+
+            str += "\n\nThe room "+ currentVertex.getRoom() +" has this conections: ";
+
+            while (neighbors.hasNext()){
+
+                str += "\n └ "+neighbors.next().getRoom()+"";
+            }
+        }
+
+        return str;
+    }
 }
