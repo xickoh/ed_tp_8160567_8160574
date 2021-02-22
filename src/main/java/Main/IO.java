@@ -170,7 +170,7 @@ public class IO<T> {
                 Iterator<Enemy> enemiesItr = room.getEnemies().iterator();
                 while (enemiesItr.hasNext()){
                     Enemy e = enemiesItr.next();
-                    event.put("description", e.getName() + " dealt " + e.getPower() + " hitpoints");
+                    event.put("description", e.getName() + " inflicted " + e.getPower() + " hitpoints");
                 }
                 event.put("room", room.getRoom());
                 jsonEventsArray.add(event);
@@ -187,7 +187,6 @@ public class IO<T> {
         newResult.put("path", jsonPath);
         resultsArray.add(newResult);
 
-        JSONObject jsonEvents = new JSONObject();
         newResult.put("events", jsonEventsArray);
 
         JSONObject results = new JSONObject();
@@ -222,6 +221,7 @@ public class IO<T> {
             for(Object o : results){
 
                 ArrayUnorderedList<String> path = new ArrayUnorderedList<>();
+                ArrayUnorderedList<Event> events = new ArrayUnorderedList<>();
                 JSONObject result = (JSONObject) o;
 
                 String missionCode = (String) result.get("missionCode");
@@ -237,7 +237,17 @@ public class IO<T> {
                     path.addToRear(zone);
                 }
 
-                listResults.addElement((new MissionResult(health, path, version, missionCode, date)), (int)health);
+                JSONArray jsonEvents = (JSONArray) result.get("events");
+
+
+                for(Object i : jsonEvents){
+                    JSONObject event = (JSONObject) i;
+                    Event newEvent = new Event((String) event.get("description"),(String) event.get("room"));
+
+                    events.addToRear(newEvent);
+                }
+
+                listResults.addElement((new MissionResult(health, path, events, version, missionCode, date)), (int)health);
             }
 
             while(!listResults.isEmpty()){
@@ -270,8 +280,6 @@ public class IO<T> {
             JSONObject allResults = (JSONObject) obj;
             JSONArray results = (JSONArray) allResults.get("results");
 
-
-
             for (Object o : results) {
 
                 JSONObject result = (JSONObject) o;
@@ -286,5 +294,34 @@ public class IO<T> {
         }
 
         return listMissions.iterator();
+    }
+
+    public static Iterator readVersion(String codMission) throws IOException, ParseException, EmptyCollectionException{
+
+        JSONParser parser = new JSONParser();
+        File file = new File("data/missionResults.json");
+        ArrayUnorderedList<Integer> listVersions = new ArrayUnorderedList<>();
+
+        if (file.length() != 0) {
+
+            Object obj = parser.parse(new FileReader(file));
+            JSONObject allResults = (JSONObject) obj;
+            JSONArray results = (JSONArray) allResults.get("results");
+
+            for (Object o : results) {
+
+                JSONObject result = (JSONObject) o;
+                int missionVersion = ((Long) result.get("version")).intValue();
+                String missionCod = (String) result.get("missionCode");
+
+                if(!listVersions.contains(missionVersion) && missionCod.equals(codMission)){
+
+                    listVersions.addToRear(missionVersion);
+
+                }
+            }
+        }
+
+        return listVersions.iterator();
     }
 }

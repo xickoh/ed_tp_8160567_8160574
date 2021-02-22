@@ -151,6 +151,7 @@ public class Main {
                         Scanner cs = new Scanner(System.in);
                         Iterator missions = IO.readMission();
                         ArrayUnorderedList<String> listMissions = new ArrayUnorderedList<>();
+                        ArrayUnorderedList<Integer> listVersions = new ArrayUnorderedList<>();
 
                         while (missions.hasNext()){
                             listMissions.addToRear((String) missions.next());
@@ -166,12 +167,33 @@ public class Main {
                             c = cs.nextInt();
                         }
 
+                        Iterator<Integer> versions = IO.readVersion(listMissions.index(c-1));
+
+                        while (versions.hasNext()){
+                            listVersions.addToRear(versions.next());
+                        }
+
+                        System.out.println("Choose the version you want to analyze: ");
+                        for(int i = 0; i < listVersions.size(); i++){
+                            System.out.println((i + 1) + " - " + listVersions.index(i));
+                        }
+
+                        int b = cs.nextInt();
+                        while (b < 1 || b > listVersions.size()) {
+                            System.out.println("It's not time to joke around, select a valid option");
+                            b = cs.nextInt();
+                        }
+
                         Iterator list = IO.missionResults();
 
                         while (list.hasNext()) {
+
                             MissionResult mission = (MissionResult) list.next();
-                            if(mission.getCodMission().equals(listMissions.index(c-1)))
+                            if(mission.getCodMission().equals(listMissions.index(c-1)) &&
+                                    mission.getVersion() == listVersions.index(b-1)){
+
                                 System.out.print(mission);
+                            }
                         }
 
                         backToMenu();
