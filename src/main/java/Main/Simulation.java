@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Iterator;
 
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -117,6 +118,46 @@ public class Simulation {
         return position;
     }
 
+    public void moveEnemies(){
+
+        //Moved enemies
+        ArrayUnorderedList<Enemy> movedEnemies = new ArrayUnorderedList<>();
+
+        //Gets rooms with enemies
+        Iterator<Room> roomItr = mission.getEnemyRooms();
+
+        //For each room
+        while(roomItr.hasNext()){
+            Room room = roomItr.next();
+            Iterator<Room> neighborsItr = mission.getMap().getNeighbor(room);
+
+            //Gets neighbors
+            ArrayUnorderedList<Room> neighbors = new ArrayUnorderedList<>();
+            while (neighborsItr.hasNext()){
+                neighbors.addToRear(neighborsItr.next());
+            }
+
+            //Move enemy to random neighbor room
+            Iterator<Enemy> enemyItr = room.getEnemies().iterator();
+            while (enemyItr.hasNext()){
+                Enemy e = enemyItr.next();
+                if (movedEnemies.contains(e)){
+                    continue;
+                }
+
+                Random r = new Random();
+                int randomIndex = neighbors.size()==1?0:r.nextInt(neighbors.size() -1);
+                Room newRoom = neighbors.index(randomIndex);
+
+                mission.getMap().getVertex(newRoom).getEnemies().add(e);
+                movedEnemies.addToRear(e);
+            }
+            //Remove enemies from previous room
+            room.setEnemies(new LinkedList<>());
+
+        }
+    }
+
     /**
      * Performs a manual simulation through the chosen map
      *
@@ -156,6 +197,8 @@ public class Simulation {
 
             //Gets the chosen room to visit next
             position = getChosenRoom(hasTarget);
+
+            moveEnemies();
 
         } while(this.agent.getHealth() > 0);
 

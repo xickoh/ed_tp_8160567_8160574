@@ -4,6 +4,8 @@ import Structs.ArrayUnorderedList;
 import Structs.LinkedList;
 import Structs.Graph;
 
+import java.util.Iterator;
+
 public class Mission {
 
     private Graph<Room> map;
@@ -65,4 +67,18 @@ public class Mission {
         }
         return targetRoom;
     }
+
+    public Iterator getEnemyRooms(){
+
+        LinkedList<Room> roomsWithEnemies = new LinkedList<>();
+
+        for (int i = 0; i<map.size(); i++){
+            if (map.getVertex(i).getEnemiesPower()>0){
+                roomsWithEnemies.add(map.getVertex(i));
+            }
+        }
+
+        return roomsWithEnemies.iterator();
+    }
+
 }
