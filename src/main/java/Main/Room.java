@@ -2,6 +2,7 @@ package Main;
 
 import Structs.LinkedList;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 public class Room {
@@ -47,8 +48,10 @@ public class Room {
     public double getEnemiesPower(){
         double power = 0;
 
-        while (enemies.iterator().hasNext()){
-            power+= enemies.iterator().next().getPower();
+        Iterator<Enemy> enemiesItr = this.enemies.iterator();
+
+        while (enemiesItr.hasNext()){
+            power+= enemiesItr.next().getPower();
         }
 
         return power;

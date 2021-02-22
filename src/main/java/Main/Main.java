@@ -24,13 +24,43 @@ public class Main {
         System.out.flush();
     }
 
-    public static void printAutomaticSimulation(Iterator i){
+    public static void printAutomaticSimulation(Iterator<Room> i, Agent p){
+        Boolean success = false;
+
         if (i.hasNext()) {
-            System.out.println(i.next() );
+            //Starting Room
+            Room startingRoom = i.next();
+            System.out.print("\n" + startingRoom.getRoom());
+
+            if (startingRoom.getEnemiesPower()>0){
+                p.setHealth(p.getHealth() - startingRoom.getEnemiesPower());
+                System.out.print(" - Damage points: " + startingRoom.getEnemiesPower() + " - Current health: " + p.getHealth());
+            }
+            System.out.print("\n");
+
             while (i.hasNext()) {
-                System.out.println("     |\n     v\n" + i.next());
+                Room room = i.next();
+                System.out.print("     |\n     v\n" + i.next().getRoom());
+                if (room.getEnemiesPower()>0){
+                    p.setHealth(p.getHealth() - room.getEnemiesPower());
+                    System.out.print(" - Damage points: " + room.getEnemiesPower() + " - Current health: " + p.getHealth());
+                }
+                if (room.getTarget()!=null){
+                    System.out.print(" - Target acquired, current health: " + p.getHealth());
+                    success = (p.getHealth() == 100) ? true:false;
+                }
+                System.out.print("\n");
             }
         }
+
+        System.out.println("\nFinal health: " + p.getHealth());
+        if (p.getHealth()>0 && success){
+            System.out.println("Mission accomplished!");
+        }
+        else{
+            System.out.println("Mission failed, I need to perform better next time");
+        }
+
     }
 
     /**
@@ -94,7 +124,7 @@ public class Main {
 
                             Iterator i = simulation.getAutomaticSimulation();
 
-                            printAutomaticSimulation(i);
+                            printAutomaticSimulation(i,p);
                         } else {
                             System.out.println("\u001B[32mThis mission is corrupted. I refuse to set foot in that building\u001B[0m");
                         }

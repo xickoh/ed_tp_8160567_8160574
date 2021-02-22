@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 
-public class Simulation<T> {
+public class Simulation {
 
     private Mission mission;
     private Agent agent;
@@ -241,7 +241,7 @@ public class Simulation<T> {
 //    }
     public Iterator getAutomaticSimulation() throws EmptyCollectionException {
 
-        ArrayUnorderedList<Room> bestPath = null;
+        ArrayUnorderedList<Room> bestPath = new ArrayUnorderedList<>();
         ArrayUnorderedList<Room> bestResult = new ArrayUnorderedList<>();
         double bestPathCost = Double.MAX_VALUE;
         int bestPathLength = Integer.MAX_VALUE;
@@ -254,12 +254,15 @@ public class Simulation<T> {
             }
         }
 
-        while (mission.getEntry().iterator().hasNext()) {
-            ArrayUnorderedList<Room> path = getBestPath((Room) mission.getMap().getVertex(mission.getEntry().iterator().next()), targetRoom);
+        Iterator<Room> entriesIt = mission.getEntry().iterator();
+
+        while (entriesIt.hasNext()) {
+            ArrayUnorderedList<Room> path = getBestPath(mission.getMap().getVertex(entriesIt.next()), targetRoom);
+            Iterator<Room> pathItr = path.iterator();
             double pathCost = 0;
             int pathLength = 0;
-            while (path.iterator().hasNext()) {
-                pathCost += ((Room) path.iterator().next()).getEnemiesPower();
+            while (pathItr.hasNext()) {
+                pathCost += pathItr.next().getEnemiesPower();
                 pathLength++;
             }
             if (pathCost <= bestPathCost && pathLength < bestPathLength) {
@@ -268,18 +271,21 @@ public class Simulation<T> {
         }
 
         //Populates bestResult with the best path to target
-        while (bestPath.iterator().hasNext()) {
-            bestResult.addToRear((Room) bestPath.iterator().next());
+        Iterator<Room> bestPathItr = bestPath.iterator();
+        while (bestPathItr.hasNext()) {
+            bestResult.addToRear(bestPathItr.next());
         }
 
         bestPathCost = Double.MAX_VALUE;
         bestPathLength = Integer.MAX_VALUE;
-        while (mission.getExit().iterator().hasNext()) {
-            ArrayUnorderedList<Room> path = getBestPath(targetRoom, (Room) mission.getMap().getVertex(mission.getExit().iterator().next()));
+        Iterator<Room> exitsIt = mission.getExit().iterator();
+        while (exitsIt.hasNext()) {
+            ArrayUnorderedList<Room> path = getBestPath(targetRoom, mission.getMap().getVertex(exitsIt.next()));
+            Iterator<Room> pathItr = path.iterator();
             double pathCost = 0;
             int pathLength = 0;
-            while (path.iterator().hasNext()) {
-                pathCost += ((Room) path.iterator().next()).getEnemiesPower();
+            while (pathItr.hasNext()) {
+                pathCost += pathItr.next().getEnemiesPower();
                 pathLength++;
             }
             if (pathCost <= bestPathCost && pathLength < bestPathLength) {
@@ -287,8 +293,9 @@ public class Simulation<T> {
             }
         }
 
-        while (bestPath.iterator().hasNext()) {
-            bestResult.addToRear((Room) bestPath.iterator().next());
+        bestPathItr = bestPath.iterator();
+        while (bestPathItr.hasNext()) {
+            bestResult.addToRear(bestPathItr.next());
         }
 
         return bestResult.iterator();
@@ -331,7 +338,6 @@ public class Simulation<T> {
                 if (map.getAdjMatrix()[currentVertex][i] && !visited[i]) {
                     traversalQueue.enqueue(i);
                     if (shortestDistance[currentVertex] + map.getVertex(i).getEnemiesPower() < shortestDistance[i]) {
-
                         shortestDistance[i] = shortestDistance[currentVertex] + map.getVertex(i).getEnemiesPower();
                         previusVertex[i] = currentVertex;
                     }
@@ -340,16 +346,15 @@ public class Simulation<T> {
 
             visited[currentVertex] = true;
         }
-
         currentVertex = endIndex;
 
         do {
-            resultPath.addToFront(map.getVertices()[currentVertex]);
+            resultPath.addToFront(map.getVertex(currentVertex));
             currentVertex = previusVertex[currentVertex];
 
         } while (currentVertex != startIndex);
 
-        resultPath.addToFront(map.getVertices()[startIndex]);
+        resultPath.addToFront(map.getVertex(startIndex));
 
         return resultPath;
     }

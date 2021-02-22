@@ -62,7 +62,7 @@ public class LinkedList<T> implements Iterable<T> {
         private Node<T> current;
 
         public myItr() {
-
+        current = front;
         }
 
         @Override
@@ -97,11 +97,11 @@ public class LinkedList<T> implements Iterable<T> {
         }
     }
 
-    @Override
-    public String toString() {
-        return "LinkedList{" +
-                "front=" + front.toString() +
-                ", count=" + count +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "LinkedList{" +
+//                "front=" + front.toString() +
+//                ", count=" + count +
+//                '}';
+//    }
 }
