@@ -74,7 +74,7 @@ public class LinkedList<T> implements Iterable<T> {
         @Override
         public Object next() {
             if(!hasNext())
-                throw new ArrayIndexOutOfBoundsException("The isn't next element !");
+                throw new ArrayIndexOutOfBoundsException("There isn't next element !");
 
             T element = current.getObject();
 

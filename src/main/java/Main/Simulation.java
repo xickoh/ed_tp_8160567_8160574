@@ -55,101 +55,102 @@ public class Simulation {
      * @throws EmptyCollectionException
      */
     public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
-//
-//        Scanner sc = new Scanner(System.in);
-//        LinkedQueue<String> path = new LinkedQueue<>();
-//        Iterator<String> neighbors, neighbors2;
-//        Iterator<String> entry = mission.getEntry().iterator();
-//        Iterator<String> exit = mission.getExit().iterator();
-//        String currentNeighbor;
-//        this.agent.setHealth(100);
-//        int number = 1;
-//        boolean hasTarget = false;
-//
-//        System.out.println("New manual simulation\n");
-//        System.out.println("Entries:");
-//
-//        while (entry.hasNext()){
-//            System.out.println(number++ + "- " + entry.next());
-//        }
-//
-//        System.out.println("\nInsert the initial position: ");
-//        String position = sc.nextLine();
-//
-//        while (Integer.parseInt(position) <1 || Integer.parseInt(position) > number-1){
-//            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
-//            position = sc.nextLine();
-//        }
-//
-//        //Gets the respective zone for the chosen option
-//        number = 1;
-//        while (exit.hasNext()){
-//            if (Integer.parseInt(position) == number){
-//                position = exit.next();
-//                break;
-//            }
-//            exit.next();
-//            number++;
-//        }
-//
-//        do {
-//            //Clears the screen
-//            Main.clearScreen();
-//
-//            this.agent.setZone(position);
-//            path.enqueue(position);
-//            neighbors = mission.getGraph().getNeighbor(position);
-//            neighbors2 = mission.getGraph().getNeighbor(position);
-//
-//            if(mission.getTarget().getZone().equals(this.agent.getZone())){
-//                hasTarget = true;
-//                System.out.println("\u001B[33mTarget acquired. Leaving now.\u001B[0m");
-//            }
-//
-//            if(isAgentDown() || isReadyToLeave(hasTarget)){
-//                break;
-//            }
-//
-//            System.out.println("\nOptions: ");
-//            number = 1;
-//            while (neighbors.hasNext()){
-//                currentNeighbor = neighbors.next();
-//                System.out.println(number++ + "- " + currentNeighbor);
-//            }
-//            System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
-//
-//            if (hasTarget){
-//                System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
-//            }
-//            System.out.println("\nInsert the next room: ");
-//            position = sc.nextLine();
-//
-//            while (Integer.parseInt(position) <1 || Integer.parseInt(position) > number-1){
-//                System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
-//                position = sc.nextLine();
-//            }
-//
-//            //Gets the respective zone for the chosen option
-//            number = 1;
-//            while (neighbors2.hasNext()){
-//                if (Integer.parseInt(position) == number){
-//                    position = neighbors2.next();
-//                    break;
-//                }
-//                neighbors2.next();
-//                number++;
-//            }
-//
-//
-//        } while(this.agent.getHealth() > 0);
-//
-//        IO.exportMission(path, this.agent.getHealth(),
-//                this.mission.getMissionCode(), this.mission.getVersion());
-//
-//        if (this.agent.getHealth()>0){
-//            System.out.println("\n\u001B[32mMission Accomplished !!!\u001B[32m\n");
-//            System.out.println("Health: "+this.agent.getHealth());
-//        }
+
+        Scanner sc = new Scanner(System.in);
+        LinkedQueue<String> path = new LinkedQueue<>();
+        Iterator<Room> neighbors;
+        Iterator<Room> entry = mission.getEntry().iterator();
+        Iterator<Room> exit = mission.getExit().iterator();
+        Room currentNeighbor;
+        this.agent.setHealth(100);
+        int number = 1;
+        boolean hasTarget = false;
+
+        System.out.println("New manual simulation\n");
+        System.out.println("Entries:");
+
+        while (entry.hasNext()){
+            System.out.println(number++ + "- " + entry.next().getRoom());
+        }
+
+        System.out.println("\nInsert the initial position: ");
+        int position = sc.nextInt();
+
+        while (position < 1 || position > number-1){
+            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
+            position = sc.nextInt();
+        }
+
+        //Gets the respective zone for the chosen option
+        number = 1;
+        entry = mission.getEntry().iterator();
+        while (entry.hasNext()){
+            if (position == number){
+                position = mission.getMap().getIndex(entry.next());
+                break;
+            }
+            exit.next();
+            number++;
+        }
+
+        do {
+            //Clears the screen
+            Main.clearScreen();
+
+            this.agent.setCurrentLocation(mission.getMap().getVertex(position));
+            path.enqueue(mission.getMap().getVertex(position).getRoom());
+            neighbors = mission.getMap().getNeighbor(mission.getMap().getVertex(position));
+
+            if(mission.getTargetRoom().equals(this.agent.getCurrentLocation())){
+                hasTarget = true;
+                System.out.println("\u001B[33mTarget acquired. Leaving now.\u001B[0m");
+            }
+
+            if(isAgentDown() || isReadyToLeave(hasTarget)){
+                break;
+            }
+
+            System.out.println("\nOptions: ");
+            number = 1;
+            while (neighbors.hasNext()){
+                currentNeighbor = neighbors.next();
+                System.out.println(number++ + "- " + currentNeighbor.getRoom());
+            }
+            System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
+
+            if (hasTarget){
+                System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
+            }
+            System.out.println("\nInsert the next room: ");
+            position = sc.nextInt();
+
+            while (position <1 || position > number-1){
+                System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
+                position = sc.nextInt();
+            }
+
+            //Gets the respective zone for the chosen option
+            number = 1;
+            neighbors = this.mission.getMap().getNeighbor(this.mission.getMap().getVertex(this.agent.getCurrentLocation()));
+            while (neighbors.hasNext()){
+                if (position == number){
+                    position = mission.getMap().getIndex(neighbors.next());
+                    break;
+                }
+                neighbors.next();
+                number++;
+            }
+
+
+        } while(this.agent.getHealth() > 0);
+
+        IO.exportMission(path, this.agent.getHealth(),
+                this.mission.getMissionCode(), this.mission.getVersion());
+
+        if (this.agent.getHealth()>0){
+            System.out.println("\n\u001B[32mMission Accomplished !!!\u001B[32m\n");
+            System.out.println("Health: "+this.agent.getHealth());
+        }
 
     }
 
@@ -157,50 +158,49 @@ public class Simulation {
      * Decrements health points if the agent has been hit
      * @return false if the agent is still alive, or true otherwise
      */
-//    public boolean isAgentDown(){
-//        Iterator<Enemy> enemies = mission.getEnemies().iterator();
-//        Enemy currentEnemy;
-//
-//        while (enemies.hasNext()) {
-//
-//            currentEnemy = enemies.next();
-//
-//            if (currentEnemy.getZone().equals(this.agent.getZone())) {
-//
-//                this.agent.setHealth(this.agent.getHealth() - currentEnemy.getPower());
-//                System.out.println("\n\u001B[31mAgent suffered damage from "+ currentEnemy.getName() +": -"+ currentEnemy.getPower()+" Health\u001B[0m");
-//
-//                if(this.agent.getHealth() < 0){
-//                    this.agent.setHealth(0);
-//                    System.out.println("\u001B[31mAgent " + this.agent.getName()+ " down, I repeat, agent "
-//                            + this.agent.getName() + " down!\u001B[0m");
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    public boolean isAgentDown(){
+        Room agentCurrentLocation = this.agent.getCurrentLocation();
+
+        if (agentCurrentLocation.getEnemiesPower() > 0){
+            this.agent.setHealth(this.agent.getHealth() - agentCurrentLocation.getEnemiesPower());
+
+            Iterator<Enemy> enemies = agentCurrentLocation.getEnemies().iterator();
+
+            while(enemies.hasNext()){
+                Enemy e = enemies.next();
+                System.out.println("\n\u001B[31mAgent suffered damage from "+ e.getName() +": -"+ e.getPower()+" Health\u001B[0m");
+            }
+
+            if(!(this.agent.getHealth() > 0)){
+                this.agent.setHealth(0);
+                System.out.println("\u001B[31mAgent " + this.agent.getName()+ " down, I repeat, agent "
+                        + this.agent.getName() + " down!\u001B[0m");
+                return true;
+            }
+
+        }
+
+        return false;
+    }
 
     /**
      * Checks if the agent has the target and is on an exit floor
      * @param hasTarget
      * @return true if the agent is ready to leave, false if not in an exit floor/ doesn't have the target
      */
-//    public boolean isReadyToLeave(boolean hasTarget){
-//        if (!hasTarget){
-//            return false;
-//        }
-//
-//        Iterator exit = mission.getExit().iterator();
-//        while(exit.hasNext()) {
-//            if(exit.next().equals(this.agent.getZone())){
-//                return true;
-//            } else {
-//                exit.next();
-//            }
-//        }
-//        return false;
-//    }
+    public boolean isReadyToLeave(boolean hasTarget){
+        if (!hasTarget){
+            return false;
+        }
+
+        Iterator exit = mission.getExit().iterator();
+        while(exit.hasNext()) {
+            if(exit.next().equals(this.agent.getCurrentLocation())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Simulates the path with the lowest weight
@@ -208,37 +208,6 @@ public class Simulation {
      * @return an iterator with the path
      * @throws EmptyCollectionException
      */
-//    public Iterator getAutomaticSimulation() throws EmptyCollectionException {
-//        Iterator entries = mission.getEntry().iterator();
-//        Iterator bestPath = null;
-//        double bestPathWeight = Double.MAX_VALUE;
-//
-//        while (entries.hasNext()){
-//            Iterator path = mission.getMap().shortestCostPath(entries.next(),mission.getTarget().getZone());
-//            Iterator copyIterator = mission.getGraph().shortestCostPath(entries.next(),mission.getTarget().getZone());
-//            double pathWeight = mission.getGraph().getPathWeight(path);
-//            if (pathWeight < bestPathWeight){
-//                bestPath = copyIterator;
-//                bestPathWeight = pathWeight;
-//            }
-//        }
-//
-//        //Adds the returning path
-//        ArrayUnorderedList<String> resultPath = new ArrayUnorderedList<>();
-//        ArrayUnorderedList<String> reversePath = new ArrayUnorderedList<>();
-//        while (bestPath.hasNext()){
-//            String nextZone = (String) bestPath.next();
-//            resultPath.addToRear(nextZone);
-//            reversePath.addToFront(nextZone);
-//        }
-//        Iterator returningPath = reversePath.iterator();
-//        returningPath.next();
-//        while (returningPath.hasNext()){
-//            resultPath.addToRear((String) returningPath.next());
-//        }
-//
-//        return resultPath.iterator();
-//    }
     public Iterator getAutomaticSimulation() throws EmptyCollectionException {
 
         ArrayUnorderedList<Room> bestPath = new ArrayUnorderedList<>();
@@ -246,13 +215,7 @@ public class Simulation {
         double bestPathCost = Double.MAX_VALUE;
         int bestPathLength = Integer.MAX_VALUE;
 
-        Room targetRoom = null;
-
-        for (int i = 0; i<mission.getMap().size(); i++){
-            if (mission.getMap().getVertex(i).getTarget()!=null){
-                targetRoom = mission.getMap().getVertex(i);
-            }
-        }
+        Room targetRoom = mission.getTargetRoom();
 
         Iterator<Room> entriesIt = mission.getEntry().iterator();
 

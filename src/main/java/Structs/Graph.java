@@ -320,6 +320,21 @@ public class Graph<T> implements GraphADT<T> {
         return -1;
     }
 
+    public Iterator<T> getNeighbor(T vertex) {
+
+        int index = getIndex(vertex);
+        ArrayUnorderedList<T> neighborList = new ArrayUnorderedList<>();
+
+        for (int i = 0; i < this.numVertices; i++) {
+            if (this.adjMatrix[index][i]) {
+                neighborList.addToRear(vertices[i]);
+            }
+        }
+
+        return neighborList.iterator();
+    }
+
+
 
     public T getVertex(T vertex){
 

@@ -54,4 +54,15 @@ public class Mission {
     public int getVersion() {
         return version;
     }
+
+    public Room getTargetRoom(){
+        Room targetRoom = null;
+
+        for (int i = 0; i<this.getMap().size(); i++){
+            if (this.getMap().getVertex(i).getTarget()!=null){
+                targetRoom = this.getMap().getVertex(i);
+            }
+        }
+        return targetRoom;
+    }
 }
