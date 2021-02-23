@@ -2,6 +2,8 @@ package Main;
 
 import Structs.LinkedList;
 
+import java.util.Iterator;
+
 public class Agent {
 
     private String name;
@@ -59,6 +61,21 @@ public class Agent {
     }
 
     public void setPowerUps(LinkedList<PowerUp> powerUps) {
+
         this.powerUps = powerUps;
+    }
+
+    public PowerUp hasPowerUp(PowerUp.Type type){
+
+        Iterator<PowerUp> ip = this.powerUps.iterator();
+
+        while (ip.hasNext()){
+            PowerUp p = ip.next();
+            if (p.getType().equals(type)){
+                return p;
+            }
+        }
+
+        return null;
     }
 }

@@ -93,8 +93,13 @@ public class Simulation {
         System.out.println("\nAgent " + this.agent.getName() + " Health: "+ this.agent.getHealth());
 
         if (hasTarget){
-            System.out.print("\u001B[33mYou carry the target with you\u001B[0m");
+            System.out.println("\u001B[33mYou carry the target with you\u001B[0m");
         }
+
+        if (this.agent.hasPowerUp(PowerUp.Type.Shield)!=null && !this.agent.hasPowerUp(PowerUp.Type.Shield).isUsed()){
+            System.out.println("\u001B[36mYou carry the shield, it will be used to protect you from the next hit\u001B[0m");
+        }
+
         System.out.println("\nInsert the next room: ");
         position = sc.nextInt();
 
@@ -170,6 +175,7 @@ public class Simulation {
         LinkedQueue<Room> path = new LinkedQueue<>();
         this.agent.setHealth(100);
         boolean hasTarget = false;
+        ArrayUnorderedList<Event> events = new ArrayUnorderedList<>();
         PowerUp shield = new PowerUp(PowerUp.Type.Shield);
         PowerUp MedKit = new PowerUp(PowerUp.Type.MedKit);
 
@@ -194,15 +200,16 @@ public class Simulation {
             this.agent.setCurrentLocation(mission.getMap().getVertex(position));
             path.enqueue(mission.getMap().getVertex(position));
 
-            checkPowerUps();
+            checkPowerUps(events);
 
             //Checks if agent has target
             if(mission.getTargetRoom().equals(this.agent.getCurrentLocation())){
                 hasTarget = true;
                 System.out.println("\u001B[33mTarget acquired. Leaving now.\u001B[0m");
+                events.addToRear(new Event("Target acquired!", this.agent.getCurrentLocation().getRoom()));
             }
 
-            if(isAgentDown() || isReadyToLeave(hasTarget)){
+            if(checkRoomInteractions(events) || isReadyToLeave(hasTarget)){
                 break;
             }
 
@@ -214,7 +221,7 @@ public class Simulation {
         } while(this.agent.getHealth() > 0);
 
         IO.exportMission(path, this.agent.getHealth(),
-                this.mission.getMissionCode(), this.mission.getVersion());
+                this.mission.getMissionCode(), this.mission.getVersion(), events.iterator());
 
         if (this.agent.getHealth()>0){
             System.out.println("\n\u001B[32mMission Accomplished !!!\u001B[32m\n");
@@ -227,23 +234,36 @@ public class Simulation {
      * Decrements health points if the agent has been hit
      * @return false if the agent is still alive, or true otherwise
      */
-    public boolean isAgentDown(){
+    public boolean checkRoomInteractions(ArrayUnorderedList<Event> events){
         Room agentCurrentLocation = this.agent.getCurrentLocation();
 
         if (agentCurrentLocation.getEnemiesPower() > 0){
-            this.agent.setHealth(this.agent.getHealth() - agentCurrentLocation.getEnemiesPower());
-
             Iterator<Enemy> enemies = agentCurrentLocation.getEnemies().iterator();
 
             while(enemies.hasNext()){
                 Enemy e = enemies.next();
+
+                PowerUp shield = this.agent.hasPowerUp(PowerUp.Type.Shield);
+                if (shield!=null && !shield.isUsed()){
+                    System.out.println("\n\u001B[36m" + e.getName() + " shot at you but you used the shield\u001B[0m");
+                    events.addToRear(new Event("Shield used against " + e.getName(), agentCurrentLocation.getRoom()));
+                    shield.setUsed();
+                    continue;
+                }
+
+                this.agent.setHealth(this.agent.getHealth() - e.getPower());
+
                 System.out.println("\n\u001B[31mAgent suffered damage from "+ e.getName() +": -"+ e.getPower()+" Health\u001B[0m");
+                events.addToRear(new Event(e.getName() + " inflicted " + e.getPower() + " hitpoints",
+                        agentCurrentLocation.getRoom()));
             }
 
             if(!(this.agent.getHealth() > 0)){
                 this.agent.setHealth(0);
                 System.out.println("\u001B[31mAgent " + this.agent.getName()+ " down, I repeat, agent "
                         + this.agent.getName() + " down!\u001B[0m");
+                events.addToRear(new Event("Agent " + agent.getName() + " died doing what they loved, RIP.",
+                        agentCurrentLocation.getRoom()));
                 return true;
             }
 
@@ -391,23 +411,26 @@ public class Simulation {
         return resultPath;
     }
 
-    public void checkPowerUps() throws EmptyCollectionException{
+    public void checkPowerUps(ArrayUnorderedList<Event> events) throws EmptyCollectionException{
 
         //Checks if the agent found some PowerUp
         if(!this.agent.getCurrentLocation().getPowerUps().isEmpty()){
 
-            this.agent.setPowerUps(this.agent.getCurrentLocation().getPowerUps());
-            Iterator<PowerUp> powerItr = this.agent.getPowerUps().iterator();
+            Iterator<PowerUp> ip = this.agent.getCurrentLocation().getPowerUps().iterator();
 
-            while(powerItr.hasNext()){
+            while (ip.hasNext()){
+                PowerUp p = ip.next();
+                this.agent.getPowerUps().add(p);
+                System.out.println("\u001B[36m"+ p.getType().name() +" acquired. \u001B[0m");
 
-                PowerUp.Type powerUp = powerItr.next().type;
 
-                System.out.println("\u001B[36m"+ powerUp.name() +" acquired. \u001B[0m");
-
-                if(powerUp.equals(PowerUp.Type.MedKit)){
+                if(p.getType().equals(PowerUp.Type.MedKit)){
                     this.agent.setHealth(100);
                     System.out.println("\u001B[36mHealth restored. \u001B[0m");
+                    events.addToRear(new Event("Medkit used", this.agent.getCurrentLocation().getRoom()));
+                }
+                if (p.getType().equals(PowerUp.Type.Shield)){
+                    events.addToRear(new Event("Shield acquired", this.agent.getCurrentLocation().getRoom()));
                 }
             }
 

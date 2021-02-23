@@ -133,7 +133,8 @@ public class IO<T> {
      * @throws ParseException
      * @throws EmptyCollectionException
      */
-    public static void exportMission(LinkedQueue<Room> path, double health, String missionCode, int version)
+    public static void exportMission(LinkedQueue<Room> path, double health, String missionCode, int version,
+                                     Iterator<Event> events)
             throws IOException, ParseException, EmptyCollectionException {
 
         JSONParser parser = new JSONParser();
@@ -164,24 +165,15 @@ public class IO<T> {
             Room room = path.dequeue();
 
             jsonPath.add(room.getRoom());
+        }
 
-            if (room.getEnemiesPower()>0){
-                JSONObject event = new JSONObject();
-                Iterator<Enemy> enemiesItr = room.getEnemies().iterator();
-                while (enemiesItr.hasNext()){
-                    Enemy e = enemiesItr.next();
-                    event.put("description", e.getName() + " inflicted " + e.getPower() + " hitpoints");
-                }
-                event.put("room", room.getRoom());
-                jsonEventsArray.add(event);
-            }
+        while (events.hasNext()) {
+            Event e = events.next();
+            JSONObject event = new JSONObject();
 
-            if (room.getTarget()!=null){
-                JSONObject event = new JSONObject();
-                event.put("description", "Target acquired");
-                event.put("room", room.getRoom());
-                jsonEventsArray.add(event);
-            }
+            event.put("description", e.getDescription());
+            event.put("room", e.getRoom());
+            jsonEventsArray.add(event);
         }
 
         newResult.put("path", jsonPath);
