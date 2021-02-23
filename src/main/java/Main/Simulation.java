@@ -194,20 +194,7 @@ public class Simulation {
             this.agent.setCurrentLocation(mission.getMap().getVertex(position));
             path.enqueue(mission.getMap().getVertex(position));
 
-            //Checks if the agent found some PowerUp
-            if(!this.agent.getCurrentLocation().getPowerUps().isEmpty()){
-
-                this.agent.setPowerUps(this.agent.getCurrentLocation().getPowerUps());
-                Iterator<PowerUp> powerItr = this.agent.getPowerUps().iterator();
-
-                while(powerItr.hasNext()){
-                    System.out.println("\u001B[36m"+ powerItr.next().type.name() +" acquired. \u001B[0m");
-                }
-
-                while (this.agent.getCurrentLocation().getPowerUps().isEmpty()){
-                    this.agent.getCurrentLocation().getPowerUps().remove();
-                }
-            }
+            checkPowerUps();
 
             //Checks if agent has target
             if(mission.getTargetRoom().equals(this.agent.getCurrentLocation())){
@@ -404,6 +391,33 @@ public class Simulation {
         return resultPath;
     }
 
+    public void checkPowerUps() throws EmptyCollectionException{
+
+        //Checks if the agent found some PowerUp
+        if(!this.agent.getCurrentLocation().getPowerUps().isEmpty()){
+
+            this.agent.setPowerUps(this.agent.getCurrentLocation().getPowerUps());
+            Iterator<PowerUp> powerItr = this.agent.getPowerUps().iterator();
+
+            while(powerItr.hasNext()){
+
+                PowerUp.Type powerUp = powerItr.next().type;
+
+                System.out.println("\u001B[36m"+ powerUp.name() +" acquired. \u001B[0m");
+
+                if(powerUp.equals(PowerUp.Type.MedKit)){
+                    this.agent.setHealth(100);
+                    System.out.println("\u001B[36mHealth restored. \u001B[0m");
+                }
+            }
+
+            while (!this.agent.getCurrentLocation().getPowerUps().isEmpty()){
+                this.agent.getCurrentLocation().getPowerUps().remove();
+            }
+
+
+        }
+    }
 
     /**
      * Gets the locations and their connections
