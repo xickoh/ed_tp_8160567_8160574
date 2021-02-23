@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ed_tp_8160567_8160574.iml" filepath="$PROJECT_DIR$/.idea/modules/ed_tp_8160567_8160574.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ed_tp_8160567_8160574_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ed_tp_8160567_8160574_main.iml" group="ed_tp_8160567_8160574" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ed_tp_8160567_8160574_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ed_tp_8160567_8160574_test.iml" group="ed_tp_8160567_8160574" />
+      <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.ed_tp_8160567_8160574.test.iml" />
     </modules>
   </component>
 </project>

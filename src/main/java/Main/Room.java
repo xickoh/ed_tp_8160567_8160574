@@ -10,11 +10,13 @@ public class Room {
     private LinkedList<Enemy> enemies;
     private Target target;
     private String room;
+    private LinkedList<PowerUp> powerUps;
 
     public Room(String room) {
         this.room = room;
         this.enemies = new LinkedList<>();
         this.target = null;
+        this.powerUps = new LinkedList<>();
     }
 
     public LinkedList<Enemy> getEnemies() {
@@ -57,4 +59,11 @@ public class Room {
         return power;
     }
 
+    public LinkedList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
+
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUps.add(powerUp);
+    }
 }
