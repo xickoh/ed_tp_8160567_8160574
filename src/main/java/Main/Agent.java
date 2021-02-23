@@ -1,10 +1,13 @@
 package Main;
 
+import Structs.LinkedList;
+
 public class Agent {
 
     private String name;
     private double health;
     private Room currentLocation;
+    private LinkedList<PowerUp> powerUps;
 
     /**
      * Class that defines the agent that will perform the mission
@@ -16,6 +19,7 @@ public class Agent {
         this.name = name;
         this.health = 100;
         this.currentLocation = null;
+        this.powerUps = new LinkedList<>();
     }
 
     /**
@@ -48,5 +52,13 @@ public class Agent {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public LinkedList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
+
+    public void setPowerUps(LinkedList<PowerUp> powerUps) {
+        this.powerUps = powerUps;
     }
 }

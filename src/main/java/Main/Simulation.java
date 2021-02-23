@@ -11,7 +11,6 @@ import Structs.LinkedQueue;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Iterator;
 
 import java.util.Random;
@@ -169,9 +168,19 @@ public class Simulation {
     public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
 
         LinkedQueue<Room> path = new LinkedQueue<>();
-        Iterator<Room> exit = mission.getExit().iterator();
         this.agent.setHealth(100);
         boolean hasTarget = false;
+        PowerUp shield = new PowerUp(PowerUp.Type.Shield);
+        PowerUp MedKit = new PowerUp(PowerUp.Type.MedKit);
+
+        //Gets a random vertex to set a PowerUp
+        int randomVertex = getRandomVertex();
+
+        this.mission.getMap().getVertex(randomVertex).setPowerUp(shield);
+
+        randomVertex = getRandomVertex();
+
+        this.mission.getMap().getVertex(randomVertex).setPowerUp(MedKit);
 
         System.out.println("New manual simulation\n");
 
@@ -184,6 +193,8 @@ public class Simulation {
             //Changes agent current location
             this.agent.setCurrentLocation(mission.getMap().getVertex(position));
             path.enqueue(mission.getMap().getVertex(position));
+
+            checkPowerUps();
 
             //Checks if agent has target
             if(mission.getTargetRoom().equals(this.agent.getCurrentLocation())){
@@ -380,6 +391,33 @@ public class Simulation {
         return resultPath;
     }
 
+    public void checkPowerUps() throws EmptyCollectionException{
+
+        //Checks if the agent found some PowerUp
+        if(!this.agent.getCurrentLocation().getPowerUps().isEmpty()){
+
+            this.agent.setPowerUps(this.agent.getCurrentLocation().getPowerUps());
+            Iterator<PowerUp> powerItr = this.agent.getPowerUps().iterator();
+
+            while(powerItr.hasNext()){
+
+                PowerUp.Type powerUp = powerItr.next().type;
+
+                System.out.println("\u001B[36m"+ powerUp.name() +" acquired. \u001B[0m");
+
+                if(powerUp.equals(PowerUp.Type.MedKit)){
+                    this.agent.setHealth(100);
+                    System.out.println("\u001B[36mHealth restored. \u001B[0m");
+                }
+            }
+
+            while (!this.agent.getCurrentLocation().getPowerUps().isEmpty()){
+                this.agent.getCurrentLocation().getPowerUps().remove();
+            }
+
+
+        }
+    }
 
     /**
      * Gets the locations and their connections
@@ -408,5 +446,14 @@ public class Simulation {
         }
 
         return str;
+    }
+
+    public int getRandomVertex(){
+
+        Random r = new Random();
+
+        int randomIndex = this.mission.getMap().size() == 1 ? 0 : r.nextInt(this.mission.getMap().size() - 1);
+
+        return randomIndex;
     }
 }
