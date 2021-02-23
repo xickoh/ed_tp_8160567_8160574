@@ -206,7 +206,7 @@ public class Simulation {
             if(mission.getTargetRoom().equals(this.agent.getCurrentLocation())){
                 hasTarget = true;
                 System.out.println("\u001B[33mTarget acquired. Leaving now.\u001B[0m");
-                events.addToRear(new Event("Target acquired!", this.agent.getCurrentLocation().getRoom()));
+                events.addToRear(new Event("Target acquired", this.agent.getCurrentLocation().getRoom()));
             }
 
             if(checkRoomInteractions(events) || isReadyToLeave(hasTarget)){
