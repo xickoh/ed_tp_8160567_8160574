@@ -1,6 +1,8 @@
 package Main;
 
-public class Target {
+import Interfaces.TargetADT;
+
+public class Target implements TargetADT {
 
     private String type;
 
@@ -13,11 +15,7 @@ public class Target {
         this.type = type;
     }
 
-    /**
-     * Return the essence
-     *
-     * @return type
-     */
+    @Override
     public String getType() {
         return type;
     }

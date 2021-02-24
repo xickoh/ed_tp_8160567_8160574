@@ -24,6 +24,33 @@ public class Main {
         System.out.flush();
     }
 
+    /**
+     * Asks the player continuously for a valid option
+     * @param number
+     * @return
+     */
+    public static int readValidInput(int number) {
+        Scanner sc = new Scanner(System.in);
+        int position = 0;
+
+        if (sc.hasNextInt()) {
+            position = sc.nextInt();
+        } else sc.nextLine();
+
+        while (position < 1 || position > number) {
+            System.out.println("It's not time to joke around, select a valid option");
+
+            System.out.println("\nInsert a valid position: ");
+            if (sc.hasNextInt()) {
+                position = sc.nextInt();
+            } else {
+                sc.nextLine();
+            }
+        }
+
+        return position;
+    }
+
     public static void printAutomaticSimulation(Iterator<Room> i, Agent p){
         Boolean success = false;
 
@@ -112,7 +139,9 @@ public class Main {
 
             System.out.print("Your option: ");
             option = s.nextLine();
+
             clearScreen();
+
             try {
 
                 switch (Integer.parseInt(option)) {
@@ -136,7 +165,7 @@ public class Main {
                         Simulation simulation = new Simulation(path, p);
 
                         if (simulation.missionValid()) {
-                            playMusic("MissionImpossible.wav");
+//                            playMusic("MissionImpossible.wav");
                             simulation.getManualSimulation();
                         }
                         else {
@@ -161,11 +190,7 @@ public class Main {
                             System.out.println((i + 1) + " - " + listMissions.index(i));
                         }
 
-                        int c = cs.nextInt();
-                        while (c < 1 || c > listMissions.size()) {
-                            System.out.println("It's not time to joke around, select a valid option");
-                            c = cs.nextInt();
-                        }
+                        int c = readValidInput(listMissions.size());
 
                         Iterator<Integer> versions = IO.readVersion(listMissions.index(c-1));
 
@@ -203,7 +228,13 @@ public class Main {
                         String path = chooseMap();
                         Simulation simulation = new Simulation(path, p);
 
-                        System.out.println(simulation.getMap());
+
+                        if (simulation.missionValid()) {
+                            System.out.println(simulation.getMap());
+                        } else {
+                            System.out.println("\u001B[32mThis mission is corrupted. I refuse to set foot in that building\u001B[0m");
+                        }
+
                         backToMenu();
                         break;
                     }
@@ -217,7 +248,10 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.out.println("\u001B[32mOption " + option + " is not an option, that would kill me\u001B[0m");
+            } catch (NumberFormatException e){
+                System.out.println("\u001B[32mOption " + option + " is not an option, that would kill me\u001B[0m");
+                option = "0";
             } catch (NotComparableException e) {
                 e.printStackTrace();
             } catch (EmptyCollectionException e) {
@@ -243,12 +277,7 @@ public class Main {
             }
         }
 
-        Scanner s = new Scanner(System.in);
-        int option = s.nextInt();
-        while (option < 1 || option > listOfFiles.length) {
-            System.out.println("It's not time to joke around, select a valid option");
-            option = s.nextInt();
-        }
+        int option = readValidInput(listOfFiles.length);
 
         return listOfFiles[option - 1].getName();
     }

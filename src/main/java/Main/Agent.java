@@ -1,10 +1,11 @@
 package Main;
 
+import Interfaces.AgentADT;
 import Structs.LinkedList;
 
 import java.util.Iterator;
 
-public class Agent {
+public class Agent implements AgentADT {
 
     private String name;
     private double health;
@@ -24,47 +25,47 @@ public class Agent {
         this.powerUps = new LinkedList<>();
     }
 
-    /**
-     * Get the name of the agent
-     * @return name
-     */
+    @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * Get the room where the agent is located
-     * @return zone
-     */
+    @Override
     public Room getCurrentLocation() {
         return currentLocation;
     }
 
-    /**
-     * Updates the room where the player is at
-     * @param currentLocation room where the player has moved into
-     */
+    @Override
     public void setCurrentLocation(Room currentLocation) {
         this.currentLocation = currentLocation;
     }
 
+    @Override
     public double getHealth() {
         return health;
     }
 
+    @Override
     public void setHealth(double health) {
         this.health = health;
     }
 
+    @Override
     public LinkedList<PowerUp> getPowerUps() {
         return powerUps;
     }
 
+    @Override
     public void setPowerUps(LinkedList<PowerUp> powerUps) {
 
         this.powerUps = powerUps;
     }
 
+    /**
+     * Checks if agent has said power up
+     * @param type
+     * @return asked powerup, or null if not found
+     */
     public PowerUp hasPowerUp(PowerUp.Type type){
 
         Iterator<PowerUp> ip = this.powerUps.iterator();

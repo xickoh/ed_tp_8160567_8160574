@@ -1,6 +1,8 @@
 package Main;
 
-public class Event {
+import Interfaces.EventADT;
+
+public class Event implements EventADT {
 
     private String description, room;
 
@@ -9,10 +11,12 @@ public class Event {
         this.room = room;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public String getRoom() {
         return room;
     }

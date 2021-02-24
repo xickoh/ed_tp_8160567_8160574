@@ -1,11 +1,8 @@
 package Main;
 
-public class PowerUp {
+import Interfaces.PowerUpADT;
 
-    enum Type{
-        MedKit,
-        Shield
-    }
+public class PowerUp implements  PowerUpADT {
 
     boolean used;
     Type type;
@@ -15,18 +12,22 @@ public class PowerUp {
         this.type = type;
     }
 
+    @Override
     public boolean isUsed() {
         return used;
     }
 
+    @Override
     public void setUsed() {
         this.used = true;
     }
 
+    @Override
     public Type getType() {
         return type;
     }
 
+    @Override
     public void setType(Type type) {
         this.type = type;
     }

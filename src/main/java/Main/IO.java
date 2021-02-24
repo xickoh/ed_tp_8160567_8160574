@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-public class IO<T> {
+public class IO{
 
     /**
      * Reads from .json file in order to populate the graph with the

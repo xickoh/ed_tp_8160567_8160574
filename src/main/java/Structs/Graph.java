@@ -357,40 +357,6 @@ public class Graph<T> implements GraphADT<T> {
         return str;
     }
 
-    /** @Override
-   public String toString() {
-
-        String s = "";
-        String result = "";
-
-        for (int i = 0; i < this.size(); i++) {
-            s += vertices[i].toString() + "\n";
-        }
-
-        result += "Adjacency Matrix\n";
-        result += "----------------\n";
-
-        result += "    ";
-        for (int i = 0; i < numVertices; i++) {
-            result += "" + i;
-            if (i < 30)
-                result += "     ";
-        }
-        result += "\n\n";
-
-        for (int i = 0; i < numVertices; i++) {
-            result += "" + i + " \t";
-
-            for (int j = 0; j < numVertices; j++) {
-                result += this.adjMatrix[i][j] + " ";
-            }
-            result += "\n";
-        }
-
-
-        return result;
-    }**/
-
     public T[] getVertices(){
         return this.vertices;
     }

@@ -1,12 +1,13 @@
 package Main;
 
+import Interfaces.MissionADT;
 import Structs.ArrayUnorderedList;
 import Structs.LinkedList;
 import Structs.Graph;
 
 import java.util.Iterator;
 
-public class Mission {
+public class Mission implements MissionADT {
 
     private Graph<Room> map;
     private LinkedList<Room> entry;
@@ -37,26 +38,32 @@ public class Mission {
 
     }
 
+    @Override
     public Graph<Room> getMap() {
         return map;
     }
 
+    @Override
     public LinkedList<Room> getEntry() {
         return entry;
     }
 
+    @Override
     public LinkedList<Room> getExit() {
         return exit;
     }
 
+    @Override
     public String getMissionCode() {
         return missionCode;
     }
 
+    @Override
     public int getVersion() {
         return version;
     }
 
+    @Override
     public Room getTargetRoom(){
         Room targetRoom = null;
 
@@ -68,6 +75,7 @@ public class Mission {
         return targetRoom;
     }
 
+    @Override
     public Iterator getEnemyRooms(){
 
         LinkedList<Room> roomsWithEnemies = new LinkedList<>();

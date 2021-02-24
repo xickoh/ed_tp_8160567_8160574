@@ -4,6 +4,7 @@ import Exceptions.NotComparableException;
 
 
 import Exceptions.EmptyCollectionException;
+import Interfaces.SimulationADT;
 import Structs.ArrayUnorderedList;
 import Structs.Graph;
 import Structs.LinkedList;
@@ -17,7 +18,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 
-public class Simulation {
+public class Simulation implements SimulationADT {
 
     private Mission mission;
     private Agent agent;
@@ -46,8 +47,38 @@ public class Simulation {
         return this.mission != null;
     }
 
-    public int getEntryRoom(){
+    /**
+     * Asks the player continuously for a valid option
+     * @param number
+     * @return a valid option
+     */
+    public int readValidInput(int number) {
         Scanner sc = new Scanner(System.in);
+        int position = 0;
+
+        if (sc.hasNextInt()) {
+            position = sc.nextInt();
+        } else sc.nextLine();
+
+        while (position < 1 || position > number - 1) {
+            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
+
+            System.out.println("\nInsert a valid position: ");
+            if (sc.hasNextInt()) {
+                position = sc.nextInt();
+            } else {
+                sc.nextLine();
+            }
+        }
+
+        return position;
+    }
+
+    /**
+     * Shows a list of possible rooms for the player to enter the building
+     * @return
+     */
+    public int getEntryRoom(){
         int number = 1;
         Iterator<Room> entry = mission.getEntry().iterator();
 
@@ -58,12 +89,8 @@ public class Simulation {
         }
 
         System.out.println("\nInsert the initial position: ");
-        int position = sc.nextInt();
 
-        while (position < 1 || position > number-1){
-            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
-            position = sc.nextInt();
-        }
+        int position = readValidInput(number);
 
         //Gets the respective zone for the chosen option
         number = 1;
@@ -79,8 +106,13 @@ public class Simulation {
         return position;
     }
 
+    /**
+     * Asks the player for a possible room to move into
+     * @param hasTarget
+     * @return index of chosen room
+     */
     public int getChosenRoom(boolean hasTarget){
-        int number = 1, position;
+        int number = 1, position = 0;
         Scanner sc = new Scanner(System.in);
         Room currentNeighbor;
         Iterator<Room> neighbors = mission.getMap().getNeighbor(this.agent.getCurrentLocation());
@@ -101,12 +133,7 @@ public class Simulation {
         }
 
         System.out.println("\nInsert the next room: ");
-        position = sc.nextInt();
-
-        while (position <1 || position > number-1){
-            System.out.println("\u001B[32mOption " + position + " is not an option, I can't teleport there\u001B[0m");
-            position = sc.nextInt();
-        }
+        position = readValidInput(number);
 
         //Gets the respective zone for the chosen option
         number = 1;
@@ -122,6 +149,9 @@ public class Simulation {
         return position;
     }
 
+    /**
+     * Changes the position of enemies each round to a random neighbor room
+     */
     public void moveEnemies(){
 
         //Moved enemies
@@ -162,14 +192,7 @@ public class Simulation {
         }
     }
 
-    /**
-     * Performs a manual simulation through the chosen map
-     *
-     * @throws NotComparableException
-     * @throws ParseException
-     * @throws IOException
-     * @throws EmptyCollectionException
-     */
+    @Override
     public void getManualSimulation() throws NotComparableException, ParseException, IOException, EmptyCollectionException {
 
         LinkedQueue<Room> path = new LinkedQueue<>();
@@ -291,12 +314,7 @@ public class Simulation {
         return false;
     }
 
-    /**
-     * Simulates the path with the lowest weight
-     *
-     * @return an iterator with the path
-     * @throws EmptyCollectionException
-     */
+    @Override
     public Iterator getAutomaticSimulation() throws EmptyCollectionException {
 
         ArrayUnorderedList<Room> bestPath = new ArrayUnorderedList<>();
@@ -354,6 +372,13 @@ public class Simulation {
 
     }
 
+    /**
+     * Given 2 vertices, returns an ArrayUnorderedList with a rooms list of the best path
+     * @param vertex1 starting point
+     * @param vertex2 finish point
+     * @return list of the best path
+     * @throws EmptyCollectionException
+     */
     public ArrayUnorderedList<Room> getBestPath(Room vertex1, Room vertex2) throws EmptyCollectionException {
         ArrayUnorderedList<Room> resultPath = new ArrayUnorderedList<>();
         LinkedQueue<Integer> traversalQueue = new LinkedQueue<>();
@@ -411,6 +436,11 @@ public class Simulation {
         return resultPath;
     }
 
+    /**
+     * Checks the room for power ups and writes to events
+     * @param events
+     * @throws EmptyCollectionException
+     */
     public void checkPowerUps(ArrayUnorderedList<Event> events) throws EmptyCollectionException{
 
         //Checks if the agent found some PowerUp
@@ -442,10 +472,7 @@ public class Simulation {
         }
     }
 
-    /**
-     * Gets the locations and their connections
-     * @return a string with the vertices and their edges
-     */
+    @Override
     public String getMap(){
 
         Iterator<Room> neighbors;
@@ -475,7 +502,7 @@ public class Simulation {
 
         Random r = new Random();
 
-        int randomIndex = this.mission.getMap().size() == 1 ? 0 : r.nextInt(this.mission.getMap().size() - 1);
+        int randomIndex = this.mission.getMap().size() == 1 ? 0 : r.nextInt(this.mission.getMap().size());
 
         return randomIndex;
     }

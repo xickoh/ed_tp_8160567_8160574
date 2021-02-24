@@ -1,11 +1,12 @@
 package Main;
 
+import Interfaces.RoomADT;
 import Structs.LinkedList;
 
 import java.util.Iterator;
 import java.util.Objects;
 
-public class Room {
+public class Room implements RoomADT {
 
     private LinkedList<Enemy> enemies;
     private Target target;
@@ -19,22 +20,27 @@ public class Room {
         this.powerUps = new LinkedList<>();
     }
 
+    @Override
     public LinkedList<Enemy> getEnemies() {
         return enemies;
     }
 
+    @Override
     public void setEnemies(LinkedList<Enemy> enemies) {
         this.enemies = enemies;
     }
 
+    @Override
     public Target getTarget() {
         return target;
     }
 
+    @Override
     public void setTarget(Target target) {
         this.target = target;
     }
 
+    @Override
     public String getRoom() {
         return room;
     }
@@ -47,6 +53,7 @@ public class Room {
         return Objects.equals(room, room1.room);
     }
 
+    @Override
     public double getEnemiesPower(){
         double power = 0;
 
@@ -59,10 +66,12 @@ public class Room {
         return power;
     }
 
+    @Override
     public LinkedList<PowerUp> getPowerUps() {
         return powerUps;
     }
 
+    @Override
     public void setPowerUp(PowerUp powerUp) {
         this.powerUps.add(powerUp);
     }

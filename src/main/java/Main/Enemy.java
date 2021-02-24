@@ -1,6 +1,8 @@
 package Main;
 
-public class Enemy {
+import Interfaces.EnemyADT;
+
+public class Enemy implements EnemyADT {
 
     private String name;
     private Double power;
@@ -16,20 +18,12 @@ public class Enemy {
         this.power = power;
     }
 
-    /**
-     * Return the name of the enemy
-     *
-     * @return name
-     */
+    @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * Return the power of the enemy
-     *
-     * @return power
-     */
+    @Override
     public Double getPower() {
         return power;
     }
